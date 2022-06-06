@@ -8,6 +8,22 @@
             <div class="row">
                 <div class="col-lg-5 col-md-5 col-sm-6">
                     <div class="white-box text-center"><img src="/storage/cartazes/{{$filme->cartaz_url}}" style="width:100%" class="img-responsive"></div>
+                    <ul class="list-unstyled">
+                        @foreach ($sessoes as $sessao)
+                        <a href="{{ route('sessao',['id' => $sessao->id]) }}">
+                            <li>
+                                Dia: {{date('d',strtotime($sessao->data))}} -
+                                {{$sessao->horario_inicio}}
+
+
+                            </li>
+                        </a>
+
+
+                        @endforeach
+
+
+                    </ul>
                 </div>
                 <div class="col-lg-7 col-md-7 col-sm-6">
                     <h3 class="box-title mt-5">{{$filme->titulo}}</h3>
