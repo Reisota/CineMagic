@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class SessoeController extends Controller
+class SessaoController extends Controller
 {
     //
 }

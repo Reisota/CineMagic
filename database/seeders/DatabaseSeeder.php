@@ -68,12 +68,12 @@ class DatabaseSeeder extends Seeder
         $this->call(FilmesSeeder::class);
         $this->call(SalasSeeder::class);
         $this->call(UsersSeeder::class);
-        $this->call(SessoesSeeder::class);
+        $this->call(SessaosSeeder::class);
     }
 
     public function runIncremental()
     {
-        $this->call(SessoesSeeder::class);
+        $this->call(SessaosSeeder::class);
     }
 
     public function run()

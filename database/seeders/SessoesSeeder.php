@@ -9,7 +9,7 @@ use Illuminate\Support\Arr;
 use Carbon\Carbon;
 
 
-class SessoesSeeder extends Seeder
+class SessaosSeeder extends Seeder
 {
     private $numberOfYears = 2;
     private $numberOfAvgSessionPerMovie = 24;
@@ -18,7 +18,7 @@ class SessoesSeeder extends Seeder
     private $numberOfDaysAfterToday = 10;
     private $lugares = [];
     private $avgTaxaOcupacao = 20;
-    private $horariosSessoes = [  // Domingo, Segunda, etc... 12 sesõoes por semana
+    private $horariosSessaos = [  // Domingo, Segunda, etc... 12 sesõoes por semana
         [14, 18, 22],
         [19],
         [19],
@@ -77,7 +77,7 @@ class SessoesSeeder extends Seeder
 
         while ($d->lessThanOrEqualTo($this->end_date)) {
             $moviesSalas = $this->distribui_movies_salas($moviesSalas);
-            $sessoes = $this->horariosSessoes[$d->dayOfWeek];
+            $sessoes = $this->horariosSessaos[$d->dayOfWeek];
             foreach ($sessoes as $sessao) {
                 foreach($salas_IDs as $salaId) {
                     $sessoesToSave[] = $this->createSessaoArray($moviesSalas[$salaId][0], $salaId, $d, $sessao);
@@ -108,14 +108,14 @@ class SessoesSeeder extends Seeder
             ->delete();
 
         $sessoes = DB::table('sessoes')->where('id', '>', $largestOldSessionId)->get();
-        $totalSessoes = $sessoes->count();
+        $totalSessaos = $sessoes->count();
 
         $i = 0;
         $comprasToSave = [];
         foreach ($sessoes as $sessao) {
             $this->createAndSaveComprasForSessao($sessao);
             if ($i % 100 == 0) { /// 100 em 100 sessoes mostra uma mensage
-                $this->command->info("Criou e gravou recibos e bilhetes para a sessão $i/$totalSessoes");
+                $this->command->info("Criou e gravou recibos e bilhetes para a sessão $i/$totalSessaos");
             }
             if ($i % 1000 == 0) { /// 500 em 500 sessoes atualiza a percentagem ocupação
                 $this->avgTaxaOcupacao = $this->avgTaxaOcupacao - rand(1,3) + rand(1,4);
@@ -125,7 +125,7 @@ class SessoesSeeder extends Seeder
             }
             $i++;
         }
-        $this->command->info("Criou e gravou recibos e bilhetes para a sessão $i/$totalSessoes");
+        $this->command->info("Criou e gravou recibos e bilhetes para a sessão $i/$totalSessaos");
 
         $totalBilhetesVendidos = DB::table('bilhetes')->count();
         $this->command->info("Total de bilhetes vendidos = $totalBilhetesVendidos");
@@ -217,13 +217,13 @@ class SessoesSeeder extends Seeder
         }
         foreach ($salasMovies as $key => $salaMovie) {
             if ($salaMovie[1] <= 0) { // Sessões desse filme acabaram. Passa a outro filme
-                $totalSessoes = $this->numberOfAvgSessionPerMovie - rand(1, $this->deltaSessionPerMovieDown) + rand(1, $this->deltaSessionPerMovieUp);
+                $totalSessaos = $this->numberOfAvgSessionPerMovie - rand(1, $this->deltaSessionPerMovieDown) + rand(1, $this->deltaSessionPerMovieUp);
 
                 $removedMovie = array_shift($this->movies);
                 if (count($this->movies) == 0) {
                     $this->rebuildListOfMovies();
                 }
-                $salasMovies[$key] = [$removedMovie, $totalSessoes];
+                $salasMovies[$key] = [$removedMovie, $totalSessaos];
                 //$this->command->info("aleatorio (sala = $key) = movie: " . $salasMovies[$key][0]. " total = " . $salasMovies[$key][1]);
             }
         }

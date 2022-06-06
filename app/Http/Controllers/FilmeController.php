@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Filme;
 use App\Models\Genero;
-use App\Models\Sessoe;
+use App\Models\Sessao;
 use Faker\Core\File;
 use Illuminate\Http\Request;
 
@@ -56,7 +56,7 @@ class FilmeController extends Controller
 
         $filme = Filme::findOrFail($filme_id);
         $genero = Genero::where("code", $filme->genero_code)->get();
-        $sessoes = Sessoe::where("filme_id", $filme_id)
+        $sessoes = Sessao::where("filme_id", $filme_id)
             ->where('data', '>=', date("Y-m-d"))
             ->get();
 
@@ -69,10 +69,10 @@ class FilmeController extends Controller
     public function sessao($sessao_id)
     {
 
-        $sessao_escolhida = Sessoe::findOrFail($sessao_id); //info da sessão escolhida
+        $sessao_escolhida = Sessao::findOrFail($sessao_id); //info da sessão escolhida
         $filme = Filme::findOrFail($sessao_escolhida->filme_id); //filme da sessão escolhida
         $genero = Genero::where("code", $filme->genero_code)->get(); //genero do filme
-        $sessoes = Sessoe::where("filme_id",$sessao_escolhida->filme_id) //sessoes disponiveis do filme
+        $sessoes = Sessao::where("filme_id",$sessao_escolhida->filme_id) //sessoes disponiveis do filme
         ->where('data', '>=', date("Y-m-d"))
         ->get();
   

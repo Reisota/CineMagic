@@ -12,6 +12,6 @@ class Filme extends Model
     protected $fillable = ['titulo', 'genero_code','ano','cartaz_url','sumario','trailer_url'];
     public function sessoesDisponiveis()
     {
-        return $this->hasMany(Sessoe::class,'filme_id','id');
+        return $this->hasMany(Sessao::class,'filme_id','id');
     }
 }
