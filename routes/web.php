@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FilmeController;
 use App\Http\Controllers\ClienteController;
+use App\Http\Controllers\DashboardController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -33,3 +34,8 @@ Route::get('filmes/{id}', [FilmeController::class, 'info'])->name('info'); // ge
 Route::get('filmes/sessao/{id}', [FilmeController::class, 'sessao'])->name('sessao'); // get do filme pelo id
 
 Route::get('index/clientes', [ClienteController::class, 'index'])->name('clientes');
+
+
+
+
+Route::get('dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
