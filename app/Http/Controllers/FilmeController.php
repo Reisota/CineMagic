@@ -20,23 +20,23 @@ class FilmeController extends Controller
 
 
         if ($genero != null) {
-            $filmes = Filme::with('sessoesDisponiveis')
+            $filmes = Filme::with('sessoes')
                 ->where(function ($query) use ($pesquisa) {
                     $query->where('sumario', 'like', '%' . $pesquisa . '%')
                         ->orWhere('titulo', 'like', '%' . $pesquisa . '%');
                 })
                 ->where('genero_code', $genero)
-                ->whereHas('sessoesDisponiveis', function ($query) {
+                ->whereHas('sessoes', function ($query) {
                     $query->where('data', '>=', date("Y-m-d"));
                 })
                 ->get();
         } else {
-            $filmes = Filme::with(['sessoesDisponiveis'])
+            $filmes = Filme::with(['sessoes'])
                 ->where(function ($query) use ($pesquisa) {
                     $query->where('sumario', 'like', '%' . $pesquisa . '%')
                         ->orWhere('titulo', 'like', '%' . $pesquisa . '%');
                 })
-                ->whereHas('sessoesDisponiveis', function ($query) {
+                ->whereHas('sessoes', function ($query) {
                     $query->where('data', '>=', date("Y-m-d"));
                 })
                 ->get();
