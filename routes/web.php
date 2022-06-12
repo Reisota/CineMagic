@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FilmeController;
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\UserController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -38,10 +40,24 @@ Route::get('index/clientes', [ClienteController::class, 'index'])->name('cliente
 
 //Apenas funcionarios
 Route::middleware('funcionario')->group(function () {
-   
 });
 
 //Apenas Administradores
 Route::middleware('admin')->prefix('admin')->name('admin.')->group(function () {
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+
+    //Utilizadores
+    Route::get('utilizadores', [UserController::class, 'admin_index'])->name('utilizadores');
+       
+    Route::get('utilizadores/{user}/edit', [UserController::class, 'edit'])->name('utilizadores.edit');
+      
+    Route::get('utilizadores/create', [UserController::class, 'create'])->name('utilizadores.create');
+       
+    Route::post('utilizadores', [UserController::class, 'store'])->name('utilizadores.store');
+       
+    Route::put('utilizadores/{user}', [UserController::class, 'update'])->name('utilizadores.update');
+        
+    Route::delete('utilizadores/{user}', [UserController::class, 'destroy'])->name('utilizadores.destroy');
+      
 });

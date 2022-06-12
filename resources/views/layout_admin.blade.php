@@ -55,10 +55,16 @@
 
             <!-- Nav Item -->
 
-            <li class="nav-item {{Route::currentRouteName()=='admin.cursos'? 'active': ''}}">
-                <a class="nav-link" href="{{url('/')}}">
+            <li class="nav-item {{Route::currentRouteName()=='admin.utilizadores'? 'active': ''}}">
+                <a class="nav-link" href="{{ route('admin.utilizadores') }}">
                     <i class="fas fa-fw fa-table"></i>
-                    <span>Utilizadores</span></a>
+                    <span>Funcionarios</span></a>
+            </li>
+
+            <li class="nav-item {{Route::currentRouteName()=='admin.utilizadores'? 'active': ''}}">
+                <a class="nav-link" href="{{ route('admin.utilizadores') }}">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>Clientes</span></a>
             </li>
 
             <li class="nav-item {{Route::currentRouteName()=='admin.cursos'? 'active': ''}}">

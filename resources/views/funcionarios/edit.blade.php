@@ -1,30 +1,24 @@
-@extends('layouts.app')
-
+@extends('layout_admin')
+@section('title','Alterar Utilizador' )
 @section('content')
-<div class="container">
-    <h2 class="text-center">Perfil </h2>
-    <form>
+<form>
         <div class="text-center">
             <label for="nome">Nome:</label>
-            <input type="text" class="form-control" id="nome" placeholder="{{ Auth::user()->name }}">
+            <input type="text" class="form-control" id="nome" value="{{ $user->name}}">
 
             <br>
             <label for="">id:</label>
 
-            <input type="text" class="form-control" id="nif" placeholder="{{$clientes[Auth::user()->id]->nif}}">
+            <input type="text" class="form-control" id="email" value="{{ $user->email}}">
 
             <br>
-            <label for="">Metodo de pagamento:</label>
-            <input type="text" class="form-control" id="pagmento" placeholder="{{$clientes[Auth::user()->id]->tipo_pagamento}}">
-            <br>
-            <label for="">Ref. de pagamento:</label>
-            <input type="text" class="form-control" id="ref" placeholder="{{$clientes[Auth::user()->id]->ref_pagamento}}">
+            <input type="text" class="form-control" id="tipo" value="{{ $user->tipo}}">
             <br>
             <label for="">Foto:</label>
             <br>
 
 
-            <p><img id="output" src="/storage/fotos/{{Auth::user()->foto_url}}" alt="picture" class="img-fluid" style="width:15%" /></p>
+            <p><img id="output" src="/storage/fotos/{{$user->foto_url}}" alt="picture" class="img-fluid" style="width:15%" /></p>
 
             <script>
                 var loadFile = function(event) {
@@ -46,7 +40,5 @@
         </div>
 
     </forms>
-
-</div>
-
+    
 @endsection
