@@ -10,14 +10,16 @@
     <title>Dashboard</title>
 
     <!-- Custom fonts for this template-->
-   
+
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-  
+
     <!-- Custom styles for this template-->
     <link href="{{asset('css/sb-admin-2.min.css')}}" rel="stylesheet">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    
+
+    <!-- Scripts -->
+    <script src="{{ asset('js/app.js') }}" defer></script>
 
 </head>
 
@@ -52,15 +54,29 @@
             <hr class="sidebar-divider">
 
             <!-- Nav Item -->
-            @can('viewAny', App\Models\Filme::class)
-            <li class="nav-item {{Route::currentRouteName()=='admin.cursos'? 'active': ''}}">
-                <a class="nav-link">
-                    <i class="fas fa-fw fa-table"></i>
-                    <span>Cursos</span></a>
-            </li>
-            @endcan
 
-        
+            <li class="nav-item {{Route::currentRouteName()=='admin.cursos'? 'active': ''}}">
+                <a class="nav-link" href="{{url('/')}}">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>Utilizadores</span></a>
+            </li>
+
+            <li class="nav-item {{Route::currentRouteName()=='admin.cursos'? 'active': ''}}">
+                <a class="nav-link" href="{{url('/')}}">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>Filmes</span></a>
+            </li>
+            <li class="nav-item {{Route::currentRouteName()=='admin.cursos'? 'active': ''}}">
+                <a class="nav-link" href="{{url('/')}}">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>Salas</span></a>
+            </li>
+            <li class="nav-item {{Route::currentRouteName()=='admin.cursos'? 'active': ''}}">
+                <a class="nav-link" href="{{url('/')}}">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>Estatísticas</span></a>
+            </li>
+
 
 
             <!-- Nav Item -->
@@ -71,15 +87,8 @@
                 </a>
             </li>
 
-            
-
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
-
-            <!-- Sidebar Toggler (Sidebar) -->
-            <div class="text-center d-none d-md-inline">
-                <button class="rounded-circle border-0" id="sidebarToggle"></button>
-            </div>
 
         </ul>
         <!-- End of Sidebar -->
@@ -91,40 +100,33 @@
             <div id="content">
 
                 <!-- Topbar -->
-                
+
                 <nav class="navbar navbar-expand navbar-light bg-dark topbar mb-4 static-top shadow">
 
-                    <!-- Sidebar Toggle (Topbar) -->
-                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
-                        <i class="fa fa-bars"></i>
-                    </button>
+                    <ul class="navbar-nav ms-auto">
 
-                    <ul class="navbar-nav ml-auto">
-                        @guest
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
-                        </li>
-                        @else
-                        <!-- Nav Item - User Information -->
-                        <li class="nav-item dropdown no-arrow">
-                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{Auth::user()->name}}</span>
-                                <img class="img-profile rounded-circle" src="{{Auth::user()->url_foto ? asset('/storage/fotos/' . Auth::user()->url_foto) : asset('img/default_img.png') }}">
+                        <li class="nav-item dropdown">
+                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                {{ Auth::user()->name }}
                             </a>
-                            <!-- Dropdown - User Information -->
-                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                                <a class="dropdown-item" >
-                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Perfil
+
+                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+
+                                <a class="dropdown-item" href="{{ route('clientes') }}">
+                                    {{ __('Perfil') }}
                                 </a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
-                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Logout
+
+                                <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                    {{ __('Logout') }}
                                 </a>
+
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                    @csrf
+                                </form>
                             </div>
                         </li>
-                        @endguest
+
                     </ul>
 
 
@@ -135,10 +137,10 @@
                 <div class="container-fluid">
 
                     @if (session('alert-msg'))
-                        @include('partials.message')
+                    @include('partials.message')
                     @endif
                     @if ($errors->any())
-                        @include('partials.errors-message')
+                    @include('partials.errors-message')
                     @endif
 
                     <!-- Page Heading -->
@@ -193,7 +195,7 @@
                 <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary"  href="{{route('logout')}}" onclick="event.preventDefault();
+                    <a class="btn btn-primary" href="{{route('logout')}}" onclick="event.preventDefault();
                     document.getElementById('logout-form').submit();">Logout</a>
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                         @csrf
@@ -203,15 +205,6 @@
         </div>
     </div>
 
-    <!-- Bootstrap core JavaScript-->
-    <script src="{{asset('vendor/jquery/jquery.min.js')}}"></script>
-    <script src="{{asset('vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
-
-    <!-- Core plugin JavaScript-->
-    <script src="{{asset('vendor/jquery-easing/jquery.easing.min.js')}}"></script>
-
-    <!-- Custom scripts for all pages-->
-    <script src="{{asset('js/sb-admin-2.min.js')}}"></script>
 
 
 </body>

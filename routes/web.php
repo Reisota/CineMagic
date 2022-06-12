@@ -36,6 +36,12 @@ Route::get('filmes/sessao/{id}', [FilmeController::class, 'sessao'])->name('sess
 Route::get('index/clientes', [ClienteController::class, 'index'])->name('clientes');
 
 
+//Apenas funcionarios
+Route::middleware('funcionario')->group(function () {
+   
+});
 
-
-Route::get('dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
+//Apenas Administradores
+Route::middleware('admin')->prefix('admin')->name('admin.')->group(function () {
+    Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
+});
