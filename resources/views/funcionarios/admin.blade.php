@@ -4,11 +4,11 @@
 <div class="row mb-3">
     <div class="col-3">
 
-        <a href="{{route('admin.utilizadores.create')}}" class="btn btn-success" role="button" aria-pressed="true">Novo Funcionario</a>
+        <a href="{{route('admin.funcionarios.create')}}" class="btn btn-success" role="button" aria-pressed="true">Novo Funcionario</a>
 
     </div>
     <div class="col-9">
-        <form method="GET" action="{{route('admin.utilizadores')}}" class="form-group">
+        <form method="GET" action="{{route('admin.funcionarios')}}" class="form-group">
             <div class="input-group">
                 <input type="text" class="form-control" id="pesquisa" name="pesquisa" placeholder="Escreva algo">
                 <div class="input-group-append">
@@ -40,12 +40,12 @@
             <td>@if($user->tipo == 'A') Administrador @else Funcionario @endif</td>
             <td>
 
-                <a href="{{route('admin.utilizadores.edit', ['user' => $user])}}" class="btn btn-primary btn-sm" role="button" aria-pressed="true">Alterar</a>
+                <a href="{{route('admin.funcionarios.edit', ['user' => $user])}}" class="btn btn-primary btn-sm" role="button" aria-pressed="true">Alterar</a>
 
             </td>
             <td>
          
-                <form action="{{route('admin.utilizadores.destroy', ['user' => $user])}}" method="POST">
+                <form action="{{route('admin.funcionarios.destroy', ['user' => $user])}}" method="POST">
                     @csrf
                     @method("DELETE")
                     <input type="submit" class="btn btn-danger btn-sm" value="Apagar">

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Cliente;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -39,9 +40,28 @@ class UserController extends Controller
        
     }
 
-    public function update(Request $request, User $disciplina)
+    public function update(Request $request, User $user)
     {
+
+       
+        $validated_data=$request->validate([
+            'email'=>'required|email|max:255',
+            'name'=>'required|max:255',
+            'tipo'=>'required|in:A,F',
+        ]);
+        $user->fill($validated_data);
         
+        if ($request->hasFile('foto')) {
+            Storage::delete('public/fotos/' . $user->user->url_foto);
+            $path = $request->foto->store('public/fotos');
+            $user->url_foto = basename($path);
+        }
+    
+        $user->save();
+        
+        return redirect()->route('admin.funcionarios')
+            ->with('alert-msg', 'Funcionario "' . $user->name . '" foi alterado com sucesso!')
+            ->with('alert-type', 'success');
     }
 
     public function destroy(User $disciplina)

@@ -48,16 +48,16 @@ Route::middleware('admin')->prefix('admin')->name('admin.')->group(function () {
 
 
     //Utilizadores
-    Route::get('utilizadores', [UserController::class, 'admin_index'])->name('utilizadores');
+    Route::get('funcionarios', [UserController::class, 'admin_index'])->name('funcionarios');
        
-    Route::get('utilizadores/{user}/edit', [UserController::class, 'edit'])->name('utilizadores.edit');
+    Route::get('funcionarios/{user}/edit', [UserController::class, 'edit'])->name('funcionarios.edit');
       
-    Route::get('utilizadores/create', [UserController::class, 'create'])->name('utilizadores.create');
+    Route::get('funcionarios/create', [UserController::class, 'create'])->name('funcionarios.create');
        
-    Route::post('utilizadores', [UserController::class, 'store'])->name('utilizadores.store');
+    Route::post('funcionarios', [UserController::class, 'store'])->name('funcionarios.store');
        
-    Route::put('utilizadores/{user}', [UserController::class, 'update'])->name('utilizadores.update');
+    Route::put('funcionarios/{user}', [UserController::class, 'update'])->name('funcionarios.update');
         
-    Route::delete('utilizadores/{user}', [UserController::class, 'destroy'])->name('utilizadores.destroy');
+    Route::delete('funcionarios/{user}', [UserController::class, 'destroy'])->name('funcionarios.destroy');
       
 });
