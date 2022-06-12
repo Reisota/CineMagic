@@ -1,12 +1,18 @@
 @extends('layout_admin')
-@section('title', 'Novo Docente' )
+@section('title', 'Novo Funcionario' )
 @section('content')
-    <form method="POST" action="{{route('admin.docentes.store')}}" class="form-group" enctype="multipart/form-data">
+<div class="container">
+    <form method="POST" action="{{route('admin.funcionarios.store')}}" class="form-group" enctype="multipart/form-data">
         @csrf
-        @include('docentes.partials.create-edit')
-        <div class="form-group text-right">
-                <button type="submit" class="btn btn-success" name="ok">Save</button>
-                <a href="{{route('admin.docentes.create')}}" class="btn btn-secondary">Cancel</a>
+        @method('PUT')
+        <div class="row">
+            @include('funcionarios.partials.create-edit')
+            <br>
+                <button class="btn btn-primary" type="submit">Criar Funcionario</button>
+            </div>
+
         </div>
     </form>
+</div>
+
 @endsection

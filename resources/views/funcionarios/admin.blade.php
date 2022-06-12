@@ -1,5 +1,5 @@
 @extends('layout_admin')
-@section('title','Utilizadores' )
+@section('title','Funcionario' )
 @section('content')
 <div class="row mb-3">
     <div class="col-3">
@@ -33,7 +33,7 @@
         @foreach ($users as $user)
         <tr {{$user->name ? 'class=table-success' : ''}}>
             <td>
-                <img src="/storage/fotos/{{$user->foto_url}}" alt="Foto" class="img-profile rounded-circle" style="width:40px;height:40px">
+                <img src="{{$user->foto_url ? asset('storage/fotos/' . $user->foto_url) : asset('img/default_img.png') }}" alt="Foto" class="img-profile rounded-circle" style="width:40px;height:40px">
             </td>
             <td>{{$user->name}}</td>
             <td>{{$user->email}}</td>

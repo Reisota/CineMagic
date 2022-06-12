@@ -34,7 +34,7 @@
         @foreach ($filmes as $filme)
         <div class="col-12 col-sm-8 col-md-6 col-lg-4">
             <div class="card">
-                <img src="/storage/cartazes/{{$filme->cartaz_url}}" alt="cartaz">
+                <img src="{{$filme->cartaz_url ? asset('storage/cartazes/' . $filme->cartaz_url) : asset('img/cartaz_default.png') }}" alt="cartaz">
 
 
                 <div class="card-body">

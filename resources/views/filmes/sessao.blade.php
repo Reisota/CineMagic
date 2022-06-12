@@ -7,7 +7,7 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-lg-5 col-md-5 col-sm-6">
-                    <div class="white-box text-center"><img src="/storage/cartazes/{{$filme->cartaz_url}}" style="width:100%" class="img-responsive"></div>
+                    <div class="white-box text-center"><img src="{{$filme->cartaz_url ? asset('storage/cartazes/' . $filme->cartaz_url) : asset('img/cartaz_default.png') }}" style="width:100%" class="img-responsive"></div>
                     <ul class="list-unstyled">
                         @foreach ($sessoes as $sessao)
                         <a href="{{ route('sessao',['id' => $sessao->id]) }}">
