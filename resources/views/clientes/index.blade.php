@@ -18,20 +18,20 @@
          
             <br>
             <label for="">Nif:</label>
-            @error('name')
+            @error('nif')
             <div class="alert-danger">{{ $message }}</div>
             @enderror
             <input type="text" class="form-control" id="nif" name="nif" placeholder="{{$cliente->nif}}">
 
             <br>
             <label for="">Metodo de pagamento:</label>
-            @error('name')
+            @error('tipo_pagamento')
             <div class="alert-danger">{{ $message }}</div>
             @enderror
             <input type="text" class="form-control" id="pagmento" name="tipo_pagamento" placeholder="{{$cliente->tipo_pagamento}}">
             <br>
             <label for="">Ref. de pagamento:</label>
-            @error('name')
+            @error('ref_pagamento')
             <div class="alert-danger">{{ $message }}</div>
             @enderror
             <input type="text" class="form-control" id="ref" name="ref_pagamento" placeholder="{{$cliente->ref_pagamento}}">
@@ -39,12 +39,7 @@
             <label for="">Foto:</label>
             <br>
             <p><img id="output" src="/storage/fotos/{{Auth::user()->foto_url}}" name="foto" alt="picture" class="img-fluid" style="width:15%" /></p>
-            <script>
-                var loadFile = function(event) {
-                    var image = document.getElementById('output');
-                    image.src = URL.createObjectURL(event.target.files[0]);
-                };
-            </script>
+  
             <p><input type="file" accept="image/*" name="image" id="file" onchange="loadFile(event)" name="foto" style="display: none;"></p>
             <p><label class="btn btn-secondary" for="file">Escolher Foto</label></p>
 

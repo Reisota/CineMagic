@@ -43,4 +43,9 @@ class Cliente extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function User()
+    {
+        return $this->hasOne(User::class,'id','id');
+    }
 }
