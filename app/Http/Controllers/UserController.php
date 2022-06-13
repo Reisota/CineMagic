@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Http\UploadedFile;
 
 class UserController extends Controller
 {
@@ -48,8 +49,8 @@ class UserController extends Controller
         $newUser->fill($validated_data);
         $newUser->password = Hash::make('123');
         if ($request->hasFile('foto')) {
-            $path = $request->foto->store('public/fotos');
-            $newUser->url_foto = basename($path);
+           // $path = $request->foto->store('public/fotos');
+            //$newUser->foto_url = basename($path);
             
         }
         $newUser->save();
@@ -71,12 +72,12 @@ class UserController extends Controller
         $user->fill($validated_data);
 
         if ($request->hasFile('foto')) {
-           
-            Storage::delete('public/fotos/' . $user->url_foto);
-            dd($request->foto->store('public/fotos'));
-            $path = $request->foto->store('public/fotos');
-      
-            $user->url_foto = basename($path);
+         
+            $oldUrlFoto = $user->foto_url;
+            Storage::delete('public/fotos/' . $oldUrlFoto);
+            //$path = $request->file('foto')->store('public/fotos/');
+            //$path= Storage::putFile('public/fotos',$request->file('foto'));
+            //$user->foto_url = basename($path);
         }
 
         $user->save();
@@ -86,7 +87,29 @@ class UserController extends Controller
             ->with('alert-type', 'success');
     }
 
-    public function destroy(User $disciplina)
+    public function destroy(User $user)
     {
+        $oldName = $user->name;
+        $oldUrlFoto = $user->foto_url;
+        try {
+            $user->delete();
+            Storage::delete('public/fotos/' . $oldUrlFoto);
+            return redirect()->route('admin.funcionarios')
+                ->with('alert-msg', 'Funcionarios "' . $user->name . '" foi apagado com sucesso!')
+                ->with('alert-type', 'success');
+        } catch (\Throwable $th) {
+            // $th é a exceção lançada pelo sistema - por norma, erro ocorre no servidor BD MySQL
+            // Descomentar a próxima linha para verificar qual a informação que a exceção tem
+
+            if ($th->errorInfo[1] == 1451) {   // 1451 - MySQL Error number for "Cannot delete or update a parent row: a foreign key constraint fails (%s)"
+                return redirect()->route('admin.funcionarios')
+                    ->with('alert-msg', 'Não foi possível apagar o Funcionario "' . $oldName . '", porque este funcionario está em uso!')
+                    ->with('alert-type', 'danger');
+            } else {
+                return redirect()->route('admin.funcionarios')
+                    ->with('alert-msg', 'Não foi possível apagar o Funcionario "' . $oldName . '". Erro: ' . $th->errorInfo[2])
+                    ->with('alert-type', 'danger');
+            }
+        }
     }
 }
