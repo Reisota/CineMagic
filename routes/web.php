@@ -68,5 +68,7 @@ Route::middleware('admin')->prefix('admin')->name('admin.')->group(function () {
 
     Route::put('funcionarios/{user}', [UserController::class, 'update'])->name('funcionarios.update');
 
+    Route::put('funcionarios/{user}/bloqueado', [UserController::class, 'bloquiar_desbloquiar'])->name('funcionarios.bloquiar_desbloquiar');
+
     Route::delete('funcionarios/{user}', [UserController::class, 'destroy'])->name('funcionarios.destroy');
 });
