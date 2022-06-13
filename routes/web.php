@@ -53,7 +53,7 @@ Route::middleware('admin')->prefix('admin')->name('admin.')->group(function () {
     Route::get('funcionarios/{user}/edit', [UserController::class, 'edit'])->name('funcionarios.edit');
       
     Route::get('funcionarios/create', [UserController::class, 'create'])->name('funcionarios.create');
-       
+  
     Route::post('funcionarios', [UserController::class, 'store'])->name('funcionarios.store');
        
     Route::put('funcionarios/{user}', [UserController::class, 'update'])->name('funcionarios.update');

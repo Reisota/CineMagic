@@ -41,7 +41,7 @@
                 
                     <h5 class="card-title"><a class="nav-link" href="{{ route('info',['id' => $filme->id]) }}">{{$filme->titulo}}</a></h5>
                     <p class="card-text">{{$filme->sumario}}</p>
-                    <p class="card-text">Sessões: @foreach ($filme->sessoesDisponiveis as $sessao)
+                    <p class="card-text">Sessões: @foreach ($filme->sessoes as $sessao)
                                                      @if($sessao->data >= date("Y-m-d"))
                                                      dia:   {{date('d',strtotime($sessao->data))}} - 
                                                         {{$sessao->horario_inicio}},

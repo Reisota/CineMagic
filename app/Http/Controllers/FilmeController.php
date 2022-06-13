@@ -42,7 +42,6 @@ class FilmeController extends Controller
                 ->get();
         }
 
-
         return view('filmes.index')
             ->with('filmes', $filmes)
             ->with('generos', $generos)

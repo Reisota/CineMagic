@@ -4,7 +4,6 @@
 <div class="container">
     <form method="POST" action="{{route('admin.funcionarios.store')}}" class="form-group" enctype="multipart/form-data">
         @csrf
-        @method('PUT')
         <div class="row">
             @include('funcionarios.partials.create-edit')
             <br>
