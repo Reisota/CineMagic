@@ -22,7 +22,7 @@ class User extends Authenticatable
         'email',
         'password',
         'tipo',
-        'url_foto',
+        'foto_url',
     ];
 
     /**
