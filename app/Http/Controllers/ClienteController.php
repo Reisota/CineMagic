@@ -13,8 +13,12 @@ class ClienteController extends Controller
 
         return view('clientes.index')
         ->with('clientes',$clientes);
-        
     }
 
+    public function edit(Cliente $clientes)
+    {
+        return view('clientes.edit')
+        ->with('clientes',$clientes);
+    }
   
 }
