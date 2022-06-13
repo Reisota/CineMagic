@@ -49,8 +49,8 @@ class UserController extends Controller
         $newUser->fill($validated_data);
         $newUser->password = Hash::make('123');
         if ($request->hasFile('foto')) {
-           // $path = $request->foto->store('public/fotos');
-            //$newUser->foto_url = basename($path);
+            $path = $request->foto->store('public/fotos');
+            $newUser->foto_url = basename($path);
             
         }
         $newUser->save();
@@ -72,12 +72,12 @@ class UserController extends Controller
         $user->fill($validated_data);
 
         if ($request->hasFile('foto')) {
-         
-            $oldUrlFoto = $user->foto_url;
-            Storage::delete('public/fotos/' . $oldUrlFoto);
-            //$path = $request->file('foto')->store('public/fotos/');
-            //$path= Storage::putFile('public/fotos',$request->file('foto'));
-            //$user->foto_url = basename($path);
+           
+            Storage::delete('public/fotos/' . $user->foto_url);
+        
+            $path = $request->foto->store('public/fotos');
+      
+            $user->foto_url = basename($path);
         }
 
         $user->save();

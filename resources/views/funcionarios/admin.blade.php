@@ -39,9 +39,7 @@
             <td>{{$user->email}}</td>
             <td>@if($user->tipo == 'A') Administrador @else Funcionario @endif</td>
             <td>
-
                 <a href="{{route('admin.funcionarios.edit', ['user' => $user])}}" class="btn btn-primary btn-sm" role="button" aria-pressed="true">Alterar</a>
-
             </td>
             <td>
          

@@ -38,7 +38,7 @@ Route::get('filmes/sessao/{id}', [FilmeController::class, 'sessao'])->name('sess
 
 
 //clientes
-Route::get('index/clientes', [ClienteController::class, 'index'])->name('clientes');
+Route::get('clientes', [ClienteController::class, 'index'])->name('clientes');
 
 Route::get('clientes/{user}/edit', [ClienteController::class, 'edit'])->name('clientes.edit');
 
