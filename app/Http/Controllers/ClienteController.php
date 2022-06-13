@@ -4,47 +4,50 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Cliente;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 class ClienteController extends Controller
 {
     public function index(Request $request)
     {
-        $users = User::where("tipo", 'A')
-            ->orWhere("tipo", 'F')
-            ->get();
-
+        $user= Auth::user();
+        $cliente = Cliente::find($user->id);
+        if ($cliente == null) {
+            $cliente = new Cliente();
+        }
+        $cliente->nif=0;
         return view('clientes.index')
-            ->with('clientes', $users);
+            ->with('user', $user)
+            ->with('cliente', $cliente);
+
     }
 
 
     public function edit(User $user)
     {
-
-        $user = User::findOrFail($user->id);
-
         return view('clientes.edit')
-            ->with('clientes', $user);
+            ->with($user);
     }
 
 
     public function update(Request $request, User $user)
     {
         $validated_data = $request->validate([
-            'email' => 'required|email|max:255',
+
             'name' => 'required|max:255',
-            'tipo' => 'required|in:A,F',
+
         ]);
         $user->fill($validated_data);
 
         if ($request->hasFile('foto')) {
-           
+
             Storage::delete('public/fotos/' . $user->url_foto);
             dd($request->foto->store('public/fotos'));
             $path = $request->foto->store('public/fotos');
-      
+
             $user->url_foto = basename($path);
         }
 
