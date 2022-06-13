@@ -23,6 +23,7 @@ class User extends Authenticatable
         'password',
         'tipo',
         'foto_url',
+        'bloqueado',
     ];
 
     /**

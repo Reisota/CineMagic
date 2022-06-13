@@ -87,6 +87,27 @@ class UserController extends Controller
             ->with('alert-type', 'success');
     }
 
+    public function bloquiar_desbloquiar(Request $request, User $user)
+    {
+        $validated_data = $request->validate([
+            'bloqueado' => 'required|in:0,1',
+        ]);
+        
+        $user->fill($validated_data);
+
+        $user->save();
+        if($request->bloqueado == '1'){
+            return redirect()->route('admin.funcionarios')
+            ->with('alert-msg', 'Utilizador "' . $user->name . '" foi bloquiado com sucesso!')
+            ->with('alert-type', 'success');
+        }else{
+            return redirect()->route('admin.funcionarios')
+            ->with('alert-msg', 'Utilizador "' . $user->name . '" foi desbloquiado com sucesso!')
+            ->with('alert-type', 'success');
+        }
+        
+    }
+
     public function destroy(User $user)
     {
         $oldName = $user->name;
