@@ -43,6 +43,7 @@
             <br>
             <br>
             <button class="btn btn-primary" type="submit">Guardar Alterações</button>
+            <a href="{{route('clientes.edit', ['clientes' => $clientes])}}" class="btn btn-primary btn-sm" role="button" aria-pressed="true">Alterar</a>
         </div>
 
     </forms>

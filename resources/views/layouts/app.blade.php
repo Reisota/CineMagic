@@ -78,7 +78,7 @@
                             </a>
 
                             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                            @if(Auth::user()->tipo != 'F' )
+                            @if(Auth::user()->tipo == 'C' || Auth::user()->tipo == 'A' )
                                 <a class="dropdown-item" href="{{ route('clientes') }}">
                                     {{ __('Perfil') }}
                                 </a>

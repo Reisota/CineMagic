@@ -35,7 +35,17 @@ Route::get('filmes/{id}', [FilmeController::class, 'info'])->name('info'); // ge
 
 Route::get('filmes/sessao/{id}', [FilmeController::class, 'sessao'])->name('sessao'); // get do filme pelo id
 
+
+
+//clientes
 Route::get('index/clientes', [ClienteController::class, 'index'])->name('clientes');
+
+Route::get('clientes/{user}/edit', [ClienteController::class, 'edit'])->name('clientes.edit');
+
+Route::put('clientes/{user}', [ClienteController::class, 'update'])->name('clientes.update');
+
+Route::delete('clientes/{user}', [ClienteController::class, 'destroy'])->name('clientes.destroy');
+
 
 
 //Apenas funcionarios
@@ -49,15 +59,14 @@ Route::middleware('admin')->prefix('admin')->name('admin.')->group(function () {
 
     //Utilizadores
     Route::get('funcionarios', [UserController::class, 'admin_index'])->name('funcionarios');
-       
+
     Route::get('funcionarios/{user}/edit', [UserController::class, 'edit'])->name('funcionarios.edit');
-      
+
     Route::get('funcionarios/create', [UserController::class, 'create'])->name('funcionarios.create');
-  
+
     Route::post('funcionarios', [UserController::class, 'store'])->name('funcionarios.store');
-       
+
     Route::put('funcionarios/{user}', [UserController::class, 'update'])->name('funcionarios.update');
-        
+
     Route::delete('funcionarios/{user}', [UserController::class, 'destroy'])->name('funcionarios.destroy');
-      
 });
