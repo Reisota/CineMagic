@@ -18,7 +18,6 @@ class ClienteController extends Controller
         if ($cliente == null) {
             $cliente = new Cliente();
         }
-        $cliente->nif = 0;
         return view('clientes.index')
             ->with('user', $user)
             ->with('cliente', $cliente);
@@ -47,35 +46,41 @@ class ClienteController extends Controller
     }
 
 
+
     public function update(Request $request, User $user)
     {
         $validated_data = $request->validate([
 
             'name' => 'required|max:255',
-            'nif' => 'required|digits:9',
-            'ref_pagamento' => 'required|digits:9',
-            'tipo_pagamento' => 'required',
+            'nif' => 'digits:9|nullable',
+            'tipo_pagamento' => 'max:25|nullable',
+            'ref_pagamento' => 'digits:9|nullable',
 
         ]);
         $user->fill($validated_data);
-
+        $cliente = Cliente::find($user->id);
         $user->name = $validated_data['name'];
-        if ($request->hasFile('foto')) {
-            Storage::delete('public/fotos/' . $user->url_foto);
-            dd($request->foto->store('public/fotos'));
-            $path = $request->foto->store('public/fotos');
 
-            $user->url_foto = basename($path);
+
+        if ($request->hasFile('foto')) {
+            Storage::delete('public/fotos/' . $user->foto_url);
+            $path = $request->foto->store('public/fotos');
+            $user->foto_url = basename($path);
         }
 
         $user->save();
-        $user->cliente->nif = $validated_data['nif'];
-        $user->cliente->tipo_pagamento = $validated_data['tipo_pagamento'];
-        $user->cliente->ref_pagamento = $validated_data['ref_pagamento'];
-        $user->cliente->save();
+
+        //$cliente->nif =  $request->nif;
+        $cliente->nif = $validated_data['nif'];
+        //dd($cliente->nif);
+        $cliente->nif = $validated_data['nif'];
+        $cliente->tipo_pagamento = $validated_data['tipo_pagamento'];
+        $cliente->ref_pagamento = $validated_data['ref_pagamento'];
+        
+        $cliente->save();
 
         return redirect()->route('clientes')
-            ->with('alert-msg', 'clientes "' . $user->name . '" foi alterado com sucesso!')
+            ->with('alert-msg', 'cliente "' . $user->name . '" foi alterado com sucesso!')
             ->with('alert-type', 'success');
     }
 

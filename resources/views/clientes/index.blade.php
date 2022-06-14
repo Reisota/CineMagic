@@ -8,55 +8,51 @@
         @method('PUT')
 
         <div class="row">
-        <div class="text-center">
-    
-            <label for="nome">Nome:</label>
-            @error('name')
-            <div class="alert-danger">{{ $message }}</div>
-            @enderror
-            <input type="text" class="form-control" id="nome" name="name" placeholder="{{ $user->name }}">
-         
-            <br>
-            <label for="">Nif:</label>
-            @error('nif')
-            <div class="alert-danger">{{ $message }}</div>
-            @enderror
-            <input type="text" class="form-control" id="nif" name="nif" placeholder="{{$cliente->nif}}">
+            <div class="text-center">
 
-            <br>
-            <label for="">Metodo de pagamento:</label>
-            @error('tipo_pagamento')
-            <div class="alert-danger">{{ $message }}</div>
-            @enderror
-            <input type="text" class="form-control" id="pagmento" name="tipo_pagamento" placeholder="{{$cliente->tipo_pagamento}}">
-            <br>
-            <label for="">Ref. de pagamento:</label>
-            @error('ref_pagamento')
-            <div class="alert-danger">{{ $message }}</div>
-            @enderror
-            <input type="text" class="form-control" id="ref" name="ref_pagamento" placeholder="{{$cliente->ref_pagamento}}">
-            <br>
-            <label for="">Foto:</label>
-            <br>
-            <p><img id="output" src="/storage/fotos/{{Auth::user()->foto_url}}" name="foto" alt="picture" class="img-fluid" style="width:15%" /></p>
-  
-            <p><input type="file" accept="image/*" name="image" id="file" onchange="loadFile(event)" name="foto" style="display: none;"></p>
-            <p><label class="btn btn-secondary" for="file">Escolher Foto</label></p>
+                <label for="nome">Nome:</label>
+                @error('name')
+                <div class="alert-danger">{{ $message }}</div>
+                @enderror
+                <input type="text" class="form-control" id="nome" name="name" value="{{ $user->name }}">
+
+                <br>
+                <label for="">Nif:</label>
+                @error('nif')
+                <div class="alert-danger">{{ $message }}</div>
+                @enderror
+                <input type="text" class="form-control" id="nif" name="nif" value="{{$cliente->nif}}">
+                <br>
+                <label for="">Metodo de pagamento:</label>
+                @error('tipo_pagamento')
+                <div class="alert-danger">{{ $message }}</div>
+                @enderror
+                <input type="text" class="form-control" id="pagamento" name="tipo_pagamento" value="{{$cliente->tipo_pagamento}}">
+                <br>
+                <label for="">Ref. de pagamento:</label>
+                @error('ref_pagamento')
+                <div class="alert-danger">{{ $message }}</div>
+                @enderror
+                <input type="text" class="form-control" id="ref" name="ref_pagamento" value="{{$cliente->ref_pagamento}}">
+                <br>
+
+                    <label for="">Foto:</label>
+                    <div class="white-box text-center">
+                        <img id="output" src="{{$user->foto_url ? asset('storage/fotos/' . $user->foto_url) : asset('img/default_img.png') }}" style="width:30%" class="img-responsive">
+                    </div>
+                    <p><input type="file" accept="image/*" name="foto" id="file" onchange="loadFile(event)" style="display: none;"></p>
+                    <p><label class="btn btn-secondary" for="file">Escolher Foto</label></p>
+
+            </div>
+
+            <div class="text-center">
+                <br>
+                <br>
+                <button class="btn btn-primary" type="submit">Guardar Alterações</button>
+            </div>
+
+            </forms>
 
         </div>
 
-        <div class="text-center">
-            <br>
-            <br>
-            <button class="btn btn-primary" type="submit">Guardar Alterações</button>
-            <a href="{{route('clientes.edit', ['user' => $user])}}" class="btn btn-primary btn-sm" role="button" aria-pressed="true">Alterar</a>
-    
-        </div>
-
-    </forms>
-
-</div>
-
-@endsection
-
-
+        @endsection

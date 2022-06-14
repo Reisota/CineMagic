@@ -33,13 +33,17 @@ Route::get('filmes/{id}', [FilmeController::class, 'info'])->name('info'); // ge
 Route::get('filmes/sessao/{id}', [FilmeController::class, 'sessao'])->name('sessao'); // get do filme pelo id
 
 
+
+//Apenas Clientes
+Route::middleware('cliente')->group(function () {
+
 //clientes
 Route::get('clientes', [ClienteController::class, 'index'])->name('clientes');
 
 Route::get('clientes/{user}/edit', [ClienteController::class, 'edit'])->name('clientes.edit');
 
 Route::put('clientes/{user}', [ClienteController::class, 'update'])->name('clientes.update');
-
+});
 
 
 
