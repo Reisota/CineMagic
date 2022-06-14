@@ -12,9 +12,15 @@ class UserController extends Controller
 {
     public function admin_index(Request $request)
     {
-        $users = User::where("tipo", 'A')
-            ->orWhere("tipo", 'F')
+
+        $pesquisa = $request->query('pesquisa', '');
+        $users = User::where('name', 'like', '%' . $pesquisa . '%')
+            ->where(function ($query) {
+                $query->where("tipo", 'A')
+                    ->orWhere("tipo", 'F');
+            })
             ->get();
+
 
         return view('funcionarios.admin')
             ->with('users', $users);
@@ -39,7 +45,7 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
-        
+
         $validated_data = $request->validate([
             'email' => 'required|email|max:255',
             'name' => 'required|max:255',
@@ -51,10 +57,9 @@ class UserController extends Controller
         if ($request->hasFile('foto')) {
             $path = $request->foto->store('public/fotos');
             $newUser->foto_url = basename($path);
-            
         }
         $newUser->save();
-       
+
         return redirect()->route('admin.funcionarios')
             ->with('alert-msg', 'Funcionarios "' . $validated_data['name'] . '" foi criado com sucesso!')
             ->with('alert-type', 'success');
@@ -72,11 +77,11 @@ class UserController extends Controller
         $user->fill($validated_data);
 
         if ($request->hasFile('foto')) {
-           
+
             Storage::delete('public/fotos/' . $user->foto_url);
-        
+
             $path = $request->foto->store('public/fotos');
-      
+
             $user->foto_url = basename($path);
         }
 
@@ -92,20 +97,19 @@ class UserController extends Controller
         $validated_data = $request->validate([
             'bloqueado' => 'required|in:0,1',
         ]);
-        
+
         $user->fill($validated_data);
 
         $user->save();
-        if($request->bloqueado == '1'){
+        if ($request->bloqueado == '1') {
             return redirect()->route('admin.funcionarios')
-            ->with('alert-msg', 'Utilizador "' . $user->name . '" foi bloquiado com sucesso!')
-            ->with('alert-type', 'success');
-        }else{
+                ->with('alert-msg', 'Utilizador "' . $user->name . '" foi bloquiado com sucesso!')
+                ->with('alert-type', 'success');
+        } else {
             return redirect()->route('admin.funcionarios')
-            ->with('alert-msg', 'Utilizador "' . $user->name . '" foi desbloquiado com sucesso!')
-            ->with('alert-type', 'success');
+                ->with('alert-msg', 'Utilizador "' . $user->name . '" foi desbloquiado com sucesso!')
+                ->with('alert-type', 'success');
         }
-        
     }
 
     public function destroy(User $user)
@@ -134,8 +138,3 @@ class UserController extends Controller
         }
     }
 }
-
-
-
-
-
