@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Sala extends Model
 {
     use HasFactory;
+
+    
+    protected $fillable = ['nome', 'custom','deleted_at'];
+
+    public $timestamps = false;
 }

@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FilmeController;
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\SalaController;
 use App\Http\Controllers\UserController;
 
 /*
@@ -94,4 +95,19 @@ Route::middleware('admin')->prefix('admin')->name('admin.')->group(function () {
 
     Route::delete('filmes/{filme}', [FilmeController::class, 'destroy'])->name('filmes.destroy');
 
+
+    //Salas
+    Route::get('salas', [SalaController::class, 'admin_index'])->name('salas');
+
+    Route::get('salas/{sala}/edit', [SalaController::class, 'edit'])->name('salas.edit');
+
+    Route::get('salas/create', [SalaController::class, 'create'])->name('salas.create');
+
+    Route::post('salas', [SalaController::class, 'store'])->name('salas.store');
+
+    Route::put('salas/{sala}', [SalaController::class, 'update'])->name('salas.update');
+
+    Route::delete('salas/{sala}', [SalaController::class, 'destroy'])->name('salas.destroy');
+
 });
+
