@@ -7,7 +7,7 @@ use App\Models\Genero;
 use App\Models\Sessao;
 use Faker\Core\File;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Storage;
 class FilmeController extends Controller
 {
     public function index(Request $request)
@@ -104,39 +104,43 @@ class FilmeController extends Controller
         $filme = Filme::findOrFail($filme->id);
         $genero = Genero::where("code", $filme->genero_code)->get();
         $sessoes = Sessao::where("filme_id", $filme->id);
-        dd($sessoes);
+        $generos = Genero::pluck('nome', 'code');
         return view('filmes.edit')
             ->with('filme', $filme)
             ->with('genero', $genero)
-            ->with('sessoes', $sessoes);
+            ->with('sessoes', $sessoes)
+            ->with('generos',$generos);
     }
 
     public function create()
     {
+        $generos = Genero::pluck('nome', 'code');
         $filme = new Filme();
         return view('filmes.create')
-            ->with('filme', $filme);
+            ->with('filme', $filme)
+            ->with('generos',$generos);
     }
 
     public function store(Request $request)
     {
 
         $validated_data = $request->validate([
-            'email' => 'required|email|max:255',
-            'name' => 'required|max:255',
-            'tipo' => 'required|in:A,F',
+            'ano' => 'required|max:4',
+            'sumario' => 'required|max:1000',
+            'titulo' => 'required|max:255',
+            'genero_code' => 'required',
         ]);
-        $newUser = new Filme;
-        $newUser->fill($validated_data);
-        $newUser->password = Hash::make('123');
+        $newFilme = new Filme;
+        $newFilme->fill($validated_data);
         if ($request->hasFile('foto')) {
-            $path = $request->foto->store('public/fotos');
-            $newUser->foto_url = basename($path);
+            $path = $request->foto->store('public/cartazes');
+            $newFilme->cartaz_url = basename($path);
         }
-        $newUser->save();
+        $newFilme->trailer_url = $request->trailer_url;
+        $newFilme->save();
 
         return redirect()->route('admin.filmes')
-            ->with('alert-msg', 'Funcionários "' . $validated_data['name'] . '" foi criado com sucesso!')
+            ->with('alert-msg', 'Filme "' . $validated_data['titulo'] . '" foi criado com sucesso!')
             ->with('alert-type', 'success');
     }
 
@@ -145,69 +149,52 @@ class FilmeController extends Controller
 
 
         $validated_data = $request->validate([
-            'email' => 'required|email|max:255',
-            'name' => 'required|max:255',
-            'tipo' => 'required|in:A,F',
+            'ano' => 'required|max:4',
+            'sumario' => 'required|max:1000',
+            'titulo' => 'required|max:255',
+            'genero_code' => 'required',
         ]);
         $filme->fill($validated_data);
-
+        $filme->trailer_url = $request->trailer_url;
         if ($request->hasFile('foto')) {
 
-            Storage::delete('public/fotos/' . $filme->foto_url);
+            Storage::delete('public/cartazes/' . $filme->cartaz_url);
 
-            $path = $request->foto->store('public/fotos');
+            $path = $request->foto->store('public/cartazes');
 
-            $filme->foto_url = basename($path);
+            $filme->cartaz_url = basename($path);
         }
 
         $filme->save();
 
         return redirect()->route('admin.filmes')
-            ->with('alert-msg', 'Funcionários "' . $filme->name . '" foi alterado com sucesso!')
+            ->with('alert-msg', 'Filme "' . $filme->titulo . '" foi alterado com sucesso!')
             ->with('alert-type', 'success');
     }
 
-    public function bloquiar_desbloquiar(Request $request, Filme $filme)
-    {
-        $validated_data = $request->validate([
-            'bloqueado' => 'required|in:0,1',
-        ]);
-
-        $filme->fill($validated_data);
-
-        $filme->save();
-        if ($request->bloqueado == '1') {
-            return redirect()->route('admin.filmes')
-                ->with('alert-msg', 'Utilizador "' . $filme->name . '" foi bloquiado com sucesso!')
-                ->with('alert-type', 'success');
-        } else {
-            return redirect()->route('admin.filmes')
-                ->with('alert-msg', 'Utilizador "' . $filme->name . '" foi desbloquiado com sucesso!')
-                ->with('alert-type', 'success');
-        }
-    }
+   
 
     public function destroy(Filme $filme)
     {
-        $oldName = $filme->name;
-        $oldUrlFoto = $filme->foto_url;
+        $oldTitulo = $filme->titulo;
+        $oldUrlCartaz = $filme->cartaz_url;
         try {
             $filme->delete();
-            Storage::delete('public/fotos/' . $oldUrlFoto);
-            return redirect()->route('admin.funcionarios')
-                ->with('alert-msg', 'Funcionarios "' . $filme->name . '" foi apagado com sucesso!')
+            Storage::delete('public/cartazes/' . $oldUrlCartaz);
+            return redirect()->route('admin.filmes')
+                ->with('alert-msg', 'Funcionarios "' . $filme->titulo . '" foi apagado com sucesso!')
                 ->with('alert-type', 'success');
         } catch (\Throwable $th) {
             // $th é a exceção lançada pelo sistema - por norma, erro ocorre no servidor BD MySQL
             // Descomentar a próxima linha para verificar qual a informação que a exceção tem
 
             if ($th->errorInfo[1] == 1451) {   // 1451 - MySQL Error number for "Cannot delete or update a parent row: a foreign key constraint fails (%s)"
-                return redirect()->route('admin.funcionarios')
-                    ->with('alert-msg', 'Não foi possível apagar o Funcionários "' . $oldName . '", porque este funcionário está em uso!')
+                return redirect()->route('admin.filmes')
+                    ->with('alert-msg', 'Não foi possível apagar o Filme "' . $oldTitulo . '", porque este funcionário está em uso!')
                     ->with('alert-type', 'danger');
             } else {
-                return redirect()->route('admin.funcionarios')
-                    ->with('alert-msg', 'Não foi possível apagar o Funcionários "' . $oldName . '". Erro: ' . $th->errorInfo[2])
+                return redirect()->route('admin.filmes')
+                    ->with('alert-msg', 'Não foi possível apagar o Filme "' . $oldTitulo . '". Erro: ' . $th->errorInfo[2])
                     ->with('alert-type', 'danger');
             }
         }
