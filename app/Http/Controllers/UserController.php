@@ -65,7 +65,7 @@ class UserController extends Controller
         $newUser->save();
 
         return redirect()->route('admin.funcionarios')
-            ->with('alert-msg', 'Funcionarios "' . $validated_data['name'] . '" foi criado com sucesso!')
+            ->with('alert-msg', 'Funcionários "' . $validated_data['name'] . '" foi criado com sucesso!')
             ->with('alert-type', 'success');
     }
 
@@ -92,7 +92,7 @@ class UserController extends Controller
         $user->save();
 
         return redirect()->route('admin.funcionarios')
-            ->with('alert-msg', 'Funcionario "' . $user->name . '" foi alterado com sucesso!')
+            ->with('alert-msg', 'Funcionários "' . $user->name . '" foi alterado com sucesso!')
             ->with('alert-type', 'success');
     }
 
@@ -132,11 +132,11 @@ class UserController extends Controller
 
             if ($th->errorInfo[1] == 1451) {   // 1451 - MySQL Error number for "Cannot delete or update a parent row: a foreign key constraint fails (%s)"
                 return redirect()->route('admin.funcionarios')
-                    ->with('alert-msg', 'Não foi possível apagar o Funcionario "' . $oldName . '", porque este funcionario está em uso!')
+                    ->with('alert-msg', 'Não foi possível apagar o Funcionários "' . $oldName . '", porque este funcionário está em uso!')
                     ->with('alert-type', 'danger');
             } else {
                 return redirect()->route('admin.funcionarios')
-                    ->with('alert-msg', 'Não foi possível apagar o Funcionario "' . $oldName . '". Erro: ' . $th->errorInfo[2])
+                    ->with('alert-msg', 'Não foi possível apagar o Funcionários "' . $oldName . '". Erro: ' . $th->errorInfo[2])
                     ->with('alert-type', 'danger');
             }
         }

@@ -23,7 +23,7 @@
     <label>Função:</label>
     <select id="tipo" class="form-control" name="tipo">
 
-        <option value="F" {{ old('tipo',$user->tipo) == 'F' ? 'selected' : ''}}>Funcionario</option>
+        <option value="F" {{ old('tipo',$user->tipo) == 'F' ? 'selected' : ''}}>Funcionário</option>
         <option value="A" {{ old('tipo',$user->tipo) == 'A' ? 'selected' : ''}}>Administrador</option>
     </select>
     @error('tipo')

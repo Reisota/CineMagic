@@ -1,5 +1,5 @@
 @extends('layout_admin')
-@section('title','Funcionario' )
+@section('title','Funcionário' )
 @section('content')
 <div class="row mb-3">
     <div class="col-3">
