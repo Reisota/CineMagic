@@ -14,7 +14,10 @@ class UserController extends Controller
     {
 
         $pesquisa = $request->query('pesquisa', '');
-        $users = User::where('name', 'like', '%' . $pesquisa . '%')
+        $users = User::where(function ($query) use ($pesquisa) {
+            $query->where('name', 'like', '%' . $pesquisa . '%')
+                ->orWhere('email', 'like', '%' . $pesquisa . '%');
+        })
             ->where(function ($query) {
                 $query->where("tipo", 'A')
                     ->orWhere("tipo", 'F');
@@ -23,7 +26,8 @@ class UserController extends Controller
 
 
         return view('funcionarios.admin')
-            ->with('users', $users);
+            ->with('users', $users)
+            ->with('pesquisa', $pesquisa);
     }
 
 

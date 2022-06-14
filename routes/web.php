@@ -44,7 +44,7 @@ Route::get('clientes/{user}/edit', [ClienteController::class, 'edit'])->name('cl
 
 Route::put('clientes/{user}', [ClienteController::class, 'update'])->name('clientes.update');
 
-Route::delete('clientes/{user}', [ClienteController::class, 'destroy'])->name('clientes.destroy');
+
 
 
 
@@ -71,4 +71,23 @@ Route::middleware('admin')->prefix('admin')->name('admin.')->group(function () {
     Route::put('funcionarios/{user}/bloqueado', [UserController::class, 'bloquiar_desbloquiar'])->name('funcionarios.bloquiar_desbloquiar');
 
     Route::delete('funcionarios/{user}', [UserController::class, 'destroy'])->name('funcionarios.destroy');
+
+    //Clientes
+    Route::get('clientes', [ClienteController::class, 'admin_index'])->name('clientes');
+    
+    Route::put('clientes/{user}', [ClienteController::class, 'bloquiar_desbloquiar'])->name('clientes.bloquiar_desbloquiar');
+    
+    Route::delete('clientes/{user}', [ClienteController::class, 'destroy'])->name('clientes.destroy');
+
+    //Filmes
+    Route::get('filmes', [FilmeController::class, 'admin_index'])->name('filmes');
+
+    Route::get('filmes/{filme}/edit', [FilmeController::class, 'edit'])->name('filmes.edit');
+
+    Route::get('filmes/create', [FilmeController::class, 'create'])->name('filmes.create');
+
+    Route::post('filmes', [FilmeController::class, 'store'])->name('filmes.store');
+
+    Route::delete('filmes/{filme}', [FilmeController::class, 'destroy'])->name('filmes.destroy');
+
 });

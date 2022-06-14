@@ -1,16 +1,15 @@
 @extends('layout_admin')
-@section('title','Funcionario' )
+@section('title','Clientes' )
 @section('content')
 <div class="row mb-3">
     <div class="col-3">
 
-        <a href="{{route('admin.funcionarios.create')}}" class="btn btn-success" role="button" aria-pressed="true">Novo Funcionario</a>
 
     </div>
     <div class="col-9">
-        <form method="GET" action="{{route('admin.funcionarios')}}" class="form-group">
+        <form method="GET" action="{{route('admin.clientes')}}" class="form-group">
             <div class="input-group">
-                <input type="text" class="form-control" id="pesquisa" name="pesquisa" value='{{$pesquisa}}' placeholder="Escreva algo">
+                <input type="text" class="form-control" id="pesquisa"  value='{{$pesquisa}}' name="pesquisa" placeholder="Escreva algo">
                 <div class="input-group-append">
                     <button class="btn btn-outline-secondary" type="submit">Filtrar</button>
                 </div>
@@ -26,7 +25,6 @@
             <th>Email</th>
             <th></th>
             <th></th>
-            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -37,18 +35,26 @@
             </td>
             <td>{{$user->name}}</td>
             <td>{{$user->email}}</td>
-            <td>@if($user->tipo == 'A') Administrador @else Funcionario @endif</td>
+
             <td>
-                <a href="{{route('admin.funcionarios.edit', ['user' => $user])}}" class="btn btn-primary btn-sm" role="button" aria-pressed="true">Alterar</a>
+                <form method="POST" action="{{route('admin.clientes.bloquiar_desbloquiar', ['user' => $user]) }}">
+                    @csrf
+                    @method('PUT')
+                    @if($user->bloqueado == 0)
+                    <button class="btn btn-danger btn-sm" type="submit" name="bloqueado" value="1">Bloquiar Conta</button>
+                    @else
+                    <button class="btn btn-danger btn-sm" type="submit" name="bloqueado" value="0">Desbloquiar Conta</button>
+                    @endif
+                </form>
             </td>
             <td>
-         
-                <form action="{{route('admin.funcionarios.destroy', ['user' => $user])}}" method="POST">
+
+                <form action="{{route('admin.clientes.destroy', ['user' => $user])}}" method="POST">
                     @csrf
                     @method("DELETE")
                     <input type="submit" class="btn btn-danger btn-sm" value="Apagar">
                 </form>
-        
+
             </td>
         </tr>
         @endforeach

@@ -13,16 +13,30 @@ class ClienteController extends Controller
 {
     public function index(Request $request)
     {
-        $user= Auth::user();
+        $user = Auth::user();
         $cliente = Cliente::find($user->id);
         if ($cliente == null) {
             $cliente = new Cliente();
         }
-        $cliente->nif=0;
+        $cliente->nif = 0;
         return view('clientes.index')
             ->with('user', $user)
             ->with('cliente', $cliente);
+    }
 
+    public function admin_index(Request $request)
+    {
+        $pesquisa = $request->query('pesquisa', '');
+        $users = User::where("tipo", 'C')
+            ->where(function ($query) use ($pesquisa) {
+                $query->where('name', 'like', '%' . $pesquisa . '%')
+                    ->orWhere('email', 'like', '%' . $pesquisa . '%');
+            })
+            ->get();
+
+        return view('clientes.admin')
+            ->with('users', $users)
+            ->with('pesquisa', $pesquisa);
     }
 
 
@@ -38,13 +52,13 @@ class ClienteController extends Controller
         $validated_data = $request->validate([
 
             'name' => 'required|max:255',
-            'nif' =>'required|digits:9',
+            'nif' => 'required|digits:9',
             'ref_pagamento' => 'required|digits:9',
             'tipo_pagamento' => 'required',
-            
+
         ]);
         $user->fill($validated_data);
-        
+
         $user->name = $validated_data['name'];
         if ($request->hasFile('foto')) {
             Storage::delete('public/fotos/' . $user->url_foto);
@@ -65,9 +79,56 @@ class ClienteController extends Controller
             ->with('alert-type', 'success');
     }
 
-    
 
-    public function destroy(User $disciplina)
+
+    public function destroy(User $user)
     {
+        $oldName = $user->name;
+        $oldUrlFoto = $user->foto_url;
+
+        $cliente = Cliente::find($user->id);
+
+        try {
+            $cliente->delete();
+            $user->delete();
+            Storage::delete('public/fotos/' . $oldUrlFoto);
+            return redirect()->route('admin.clientes')
+                ->with('alert-msg', 'Utilizador "' . $user->name . '" foi apagado com sucesso!')
+                ->with('alert-type', 'success');
+        } catch (\Throwable $th) {
+            // $th é a exceção lançada pelo sistema - por norma, erro ocorre no servidor BD MySQL
+            // Descomentar a próxima linha para verificar qual a informação que a exceção tem
+
+            if ($th->errorInfo[1] == 1451) {   // 1451 - MySQL Error number for "Cannot delete or update a parent row: a foreign key constraint fails (%s)"
+                return redirect()->route('admin.clientes')
+                    ->with('alert-msg', 'Não foi possível apagar o Utilizador "' . $oldName . '", porque este utilizador está em uso!')
+                    ->with('alert-type', 'danger');
+            } else {
+                return redirect()->route('admin.clientes')
+                    ->with('alert-msg', 'Não foi possível apagar o Utilizador "' . $oldName . '". Erro: ' . $th->errorInfo[2])
+                    ->with('alert-type', 'danger');
+            }
+        }
+    }
+
+
+    public function bloquiar_desbloquiar(Request $request, User $user)
+    {
+        $validated_data = $request->validate([
+            'bloqueado' => 'required|in:0,1',
+        ]);
+
+        $user->fill($validated_data);
+
+        $user->save();
+        if ($request->bloqueado == '1') {
+            return redirect()->route('admin.clientes')
+                ->with('alert-msg', 'Utilizador "' . $user->name . '" foi bloquiado com sucesso!')
+                ->with('alert-type', 'success');
+        } else {
+            return redirect()->route('admin.clientes')
+                ->with('alert-msg', 'Utilizador "' . $user->name . '" foi desbloquiado com sucesso!')
+                ->with('alert-type', 'success');
+        }
     }
 }

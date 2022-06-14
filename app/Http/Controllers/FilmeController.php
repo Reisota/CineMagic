@@ -49,6 +49,22 @@ class FilmeController extends Controller
             ->with('pesquisa', $pesquisa);
     }
 
+    public function admin_index(Request $request)
+    {
+        $pesquisa = $request->query('pesquisa', '');
+        $filmes = Filme::with('genero')
+            ->whereHas('genero', function ($query) use ($pesquisa) {
+                $query->where('nome', 'like', '%' . $pesquisa . '%');
+            })
+            ->orWhere('titulo', 'like', '%' . $pesquisa . '%')
+            ->get();
+
+
+        return view('filmes.admin')
+            ->with('filmes', $filmes)
+            ->with('pesquisa', $pesquisa);
+    }
+
 
     public function info($filme_id)
     {
@@ -71,10 +87,10 @@ class FilmeController extends Controller
         $sessao_escolhida = Sessao::findOrFail($sessao_id); //info da sessão escolhida
         $filme = Filme::findOrFail($sessao_escolhida->filme_id); //filme da sessão escolhida
         $genero = Genero::where("code", $filme->genero_code)->get(); //genero do filme
-        $sessoes = Sessao::where("filme_id",$sessao_escolhida->filme_id) //sessoes disponiveis do filme
-        ->where('data', '>=', date("Y-m-d"))
-        ->get();
-  
+        $sessoes = Sessao::where("filme_id", $sessao_escolhida->filme_id) //sessoes disponiveis do filme
+            ->where('data', '>=', date("Y-m-d"))
+            ->get();
+
         return view('filmes.sessao')
             ->with('sessao_escolhida', $sessao_escolhida)
             ->with('sessoes', $sessoes)

@@ -15,4 +15,9 @@ class Filme extends Model
     {
         return $this->hasMany(Sessao::class,'filme_id','id');
     }
+
+    public function genero()
+    {
+        return $this->hasOne(Genero::class,'code','genero_code');
+    }
 }
