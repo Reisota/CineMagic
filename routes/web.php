@@ -25,16 +25,12 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
+//Filmes
 Route::get('filmes', [FilmeController::class, 'index'])->name('filmes'); //get de todos os filmes em exibição
 
 Route::get('filmes/{id}', [FilmeController::class, 'info'])->name('info'); // get do filme pelo id
 
 Route::get('filmes/sessao/{id}', [FilmeController::class, 'sessao'])->name('sessao'); // get do filme pelo id
-
-Route::get('filmes/{id}', [FilmeController::class, 'info'])->name('info'); // get do filme pelo id
-
-Route::get('filmes/sessao/{id}', [FilmeController::class, 'sessao'])->name('sessao'); // get do filme pelo id
-
 
 
 //clientes
@@ -85,6 +81,10 @@ Route::middleware('admin')->prefix('admin')->name('admin.')->group(function () {
     Route::get('filmes/{filme}/edit', [FilmeController::class, 'edit'])->name('filmes.edit');
 
     Route::get('filmes/create', [FilmeController::class, 'create'])->name('filmes.create');
+
+    Route::post('filmes', [FilmeController::class, 'store'])->name('filmes.store');
+
+    Route::put('filmes/{filme}', [FilmeController::class, 'update'])->name('filmes.update');
 
     Route::post('filmes', [FilmeController::class, 'store'])->name('filmes.store');
 

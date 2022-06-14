@@ -1,5 +1,5 @@
 @extends('layout_admin')
-@section('title','Alterar Funcionario' )
+@section('title','Alterar Funcionário' )
 @section('content')
 <div class="container">
     <form method="POST" action="{{route('admin.funcionarios.update', ['user' => $user]) }}" class="form-group" enctype="multipart/form-data">
