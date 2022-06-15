@@ -10,14 +10,15 @@
     <br>
     <input type="hidden" class="form-control" id="titulo" name="filme_id" value="{{$filme->id}}">
     <label>Data:</label>
-    <input type="text" class="form-control" id="data" name="data" value="{{old('data',  $sessao->data)}}">
+    <input id="startDate" class="form-control" type="date" name="data" value="{{old('data',  $sessao->data)}}"/>
     @error('data')
     <div class="alert-danger">{{ $message }}</div>
     @enderror
     
     <br>
     <label>Horário:</label>
-    <input type="text" class="form-control" id="horario_inicio" name="horario_inicio" value="{{old('horario_inicio',$sessao->horario_inicio)}}">
+    <input id="startDate" class="form-control" type="time" name="horario_inicio" value="{{old('horario_inicio',  $sessao->horario_inicio)}}"/>
+   
     @error('horario_inicio')
     <div class="alert-danger">{{ $message }}</div>
     @enderror

@@ -39,7 +39,7 @@
 
             <td>{{$sessao->data}}</td>
 
-            <td>{{$sessao->data}}</td>
+            <td>{{$sessao->horario_inicio}}</td>
             <td>{{$sessao->sala->nome}}</td>
             <td>
                 <a href="{{route('admin.sessoes.edit', ['sessao' => $sessao])}}" class="btn btn-primary btn-sm" role="button" aria-pressed="true">Alterar</a>

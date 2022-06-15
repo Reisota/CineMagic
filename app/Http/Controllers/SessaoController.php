@@ -65,7 +65,7 @@ class SessaoController extends Controller
         $filme = Filme::find($request->filme_id);
         $validated_data = $request->validate([
             'data' => 'required|date_format:Y-m-d',
-            'horario_inicio' => 'required|date_format:H:i:s',
+            'horario_inicio' => 'required|date_format:H:i',
             'sala_id' => 'required',
         ]);
         $newSessao = new Sessao();
@@ -84,7 +84,7 @@ class SessaoController extends Controller
         $filme = Filme::find($sessao->filme_id);
         $validated_data = $request->validate([
             'data' => 'required|date_format:Y-m-d',
-            'horario_inicio' => 'required|date_format:H:i:s',
+            'horario_inicio' => 'required|date_format:H:i',
             'sala_id' => 'required',
         ]);
         $sessao->fill($validated_data);
