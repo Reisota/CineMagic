@@ -72,8 +72,8 @@
                     <i class="fas fa-fw fa-table"></i>
                     <span>Filmes</span></a>
             </li>
-            <li class="nav-item {{Route::currentRouteName()=='admin.cursos'? 'active': ''}}">
-                <a class="nav-link" href="{{url('/')}}">
+            <li class="nav-item {{Route::currentRouteName()=='admin.salas'? 'active': ''}}">
+                <a class="nav-link" href="{{ route('admin.salas')}}">
                     <i class="fas fa-fw fa-table"></i>
                     <span>Salas</span></a>
             </li>

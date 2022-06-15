@@ -13,4 +13,8 @@ class Sala extends Model
     {
         return $this->hasMany(Sessoes::class);
     }
+    
+    protected $fillable = ['nome'];
+
+    public $timestamps = false;
 }

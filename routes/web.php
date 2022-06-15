@@ -5,6 +5,7 @@ use App\Http\Controllers\FilmeController;
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\SessaoController;
+use App\Http\Controllers\SalaController;
 use App\Http\Controllers\UserController;
 
 /*
@@ -105,4 +106,19 @@ Route::middleware('admin')->prefix('admin')->name('admin.')->group(function () {
     Route::put('sessoes/{sessao}', [SessaoController::class, 'update'])->name('sessoes.update');
 
     Route::delete('sessoes/{sessao}', [SessaoController::class, 'destroy'])->name('sessoes.destroy');
+
+    //Salas
+    Route::get('salas', [SalaController::class, 'admin_index'])->name('salas');
+
+    Route::get('salas/{sala}/edit', [SalaController::class, 'edit'])->name('salas.edit');
+
+    Route::get('salas/create', [SalaController::class, 'create'])->name('salas.create');
+
+    Route::post('salas', [SalaController::class, 'store'])->name('salas.store');
+
+    Route::put('salas/{sala}', [SalaController::class, 'update'])->name('salas.update');
+
+    Route::delete('salas/{sala}', [SalaController::class, 'destroy'])->name('salas.destroy');
+
 });
+
