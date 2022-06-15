@@ -7,6 +7,9 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\SessaoController;
 use App\Http\Controllers\SalaController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\BilheteController;
+use App\Http\Controllers\ConfiguracaoController;
+use App\Models\Configuracao;
 
 /*
 |--------------------------------------------------------------------------
@@ -120,5 +123,10 @@ Route::middleware('admin')->prefix('admin')->name('admin.')->group(function () {
 
     Route::delete('salas/{sala}', [SalaController::class, 'destroy'])->name('salas.destroy');
 
+
+    //Configuracao
+    Route::get('configuracao', [ConfiguracaoController::class, 'admin_index'])->name('configuracao');
+
+    Route::put('configuracao', [ConfiguracaoController::class, 'update'])->name('configuracao.update');
 });
 

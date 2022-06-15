@@ -77,6 +77,11 @@
                     <i class="fas fa-fw fa-table"></i>
                     <span>Salas</span></a>
             </li>
+            <li class="nav-item {{Route::currentRouteName()=='admin.configuracao'? 'active': ''}}">
+                <a class="nav-link" href="{{ route('admin.configuracao')}}">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>Preço Bilhetes</span></a>
+            </li>
             <li class="nav-item {{Route::currentRouteName()=='admin.cursos'? 'active': ''}}">
                 <a class="nav-link" href="{{url('/')}}">
                     <i class="fas fa-fw fa-table"></i>
