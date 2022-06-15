@@ -52,6 +52,13 @@
                         </li>
                         @endif
                         @endauth
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('filmes') }}">{{ __('COMPRA DE BILHETES') }}</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('filmes') }}">{{ __(' HISTÓRICO, RECIBOS E BILHETES ') }}</a>
+                        </li>
+
                        
                    
                     </ul>
@@ -59,6 +66,9 @@
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ms-auto">
                         <!-- Authentication Links -->
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('filmes') }}">{{ __('CARINHO') }}</a>
+                        </li>
                         @guest
                         @if (Route::has('login'))
                         <li class="nav-item">
