@@ -29,11 +29,12 @@
             <th>ano</th>
             <th></th>
             <th></th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
         @foreach ($filmes as $filme)
-        <tr {{$filme->name ? 'class=table-success' : ''}}>
+        <tr {{$filme->titulo ? 'class=table-success' : ''}}>
             <td>
                 <img src="{{$filme->cartaz_url ? asset('storage/cartazes/' . $filme->cartaz_url) : asset('img/cartaz_default.png') }}" alt="Foto" class="img-profile rounded-circle" style="width:40px;height:40px">
             </td>
@@ -42,6 +43,9 @@
             <td>{{$filme->ano}}</td>
             <td>
                 <a href="{{route('admin.filmes.edit', ['filme' => $filme])}}" class="btn btn-primary btn-sm" role="button" aria-pressed="true">Alterar</a>
+            </td>
+            <td>
+                <a href="{{route('admin.sessoes', ['filme' => $filme])}}" class="btn btn-success btn-sm" role="button" aria-pressed="true">Sessões</a>
             </td>
             <td>
          

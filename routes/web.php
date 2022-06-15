@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FilmeController;
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\SessaoController;
 use App\Http\Controllers\UserController;
 
 /*
@@ -90,8 +91,18 @@ Route::middleware('admin')->prefix('admin')->name('admin.')->group(function () {
 
     Route::put('filmes/{filme}', [FilmeController::class, 'update'])->name('filmes.update');
 
-    Route::post('filmes', [FilmeController::class, 'store'])->name('filmes.store');
-
     Route::delete('filmes/{filme}', [FilmeController::class, 'destroy'])->name('filmes.destroy');
 
+    //Sessões
+    Route::get('sessoes/{filme}', [SessaoController::class, 'admin_index'])->name('sessoes');
+    
+    Route::get('sessoes/{sessao}/edit', [SessaoController::class, 'edit'])->name('sessoes.edit');
+
+    Route::get('sessoes/create/{filme}', [SessaoController::class, 'create'])->name('sessoes.create');
+
+    Route::post('sessoes', [SessaoController::class, 'store'])->name('sessoes.store');
+
+    Route::put('sessoes/{sessao}', [SessaoController::class, 'update'])->name('sessoes.update');
+
+    Route::delete('sessoes/{sessao}', [SessaoController::class, 'destroy'])->name('sessoes.destroy');
 });
