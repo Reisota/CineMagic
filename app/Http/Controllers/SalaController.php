@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Sala;
+use App\Models\Lugar;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\UploadedFile;
@@ -28,20 +29,32 @@ class SalaController extends Controller
 
     public function edit(Sala $sala)
     {
-
+        
         $user = Sala::findOrFail($sala->id);
 
+        $count = Lugar::where('sala_id','=',$user->id) 
+                ->where('fila','=','A')->count();
+        $count1 = Lugar::where('sala_id','=',$user->id)->count();
+        $count2 = ($count1 / $count);
+
+        //$lugares = Lugar::where('sala_id',$user->id)->get();
+
         return view('salas.edit')
-            ->with('sala', $sala);
+            ->with('sala', $user)
+           //->with('lugares', $lugares);
+            ->with('lugares', $count)
+            ->with('lugares2', $count2);
+            
     }
     
 
-
     public function create()
     {
+        $lugares = Lugar::pluck('fila', 'posicao');
         $sala = new Sala();
         return view('salas.create')
-            ->with('sala', $sala);
+            ->with('sala', $sala)
+            ->with('lugares', $lugares);
     }
 
     public function store(Request $request)
@@ -49,6 +62,8 @@ class SalaController extends Controller
 
         $validated_data = $request->validate([
             'nome' => 'required|max:255',
+            'fila' => 'required|integer|min:0|max:50',
+            'posicao' => 'required|integer|min:0|max:50'
         ]);
         $newSala = new Sala;
         $newSala->fill($validated_data);
@@ -63,7 +78,8 @@ class SalaController extends Controller
     {
         $validated_data = $request->validate([
             'nome' => 'required|max:255',
-
+            'fila' => 'required|integer|min:0|max:50',
+            'posicao' => 'required|integer|min:0|max:50'
         ]);
         $sala->fill($validated_data);
 

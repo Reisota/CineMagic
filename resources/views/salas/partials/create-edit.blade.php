@@ -5,4 +5,15 @@
     @error('nome')
     <div class="alert-danger">{{ $message }}</div>
     @enderror
+    <label>Fila:</label>
+    <input type="text" class="form-control" id="fila" name="fila" value="{{old('fila',  $lugares2)}}">
+    @error('fila')
+    <div class="alert-danger">{{ $message }}</div>
+    @enderror
+    <label>Lugares:</label>
+    <input type="text" class="form-control" id="posicao" name="posicao" value="{{old('posicao',  $lugares)}}">
+    @error('posicao')
+    <div class="alert-danger">{{ $message }}</div>
+    @enderror
     <br>
+ 

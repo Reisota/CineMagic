@@ -51,13 +51,12 @@
                             <a class="nav-link" href="{{ route('filmes') }}">{{ __('VALIDAÇÃO DE BILHETES') }} </a>
                         </li>
                         @endif
+                        @if(Auth::user()->tipo == 'C' )
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('filmes') }}">{{ __(' HISTÓRICO') }}</a>
+                        </li>
+                        @endif
                         @endauth
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('filmes') }}">{{ __('COMPRA DE BILHETES') }}</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('filmes') }}">{{ __(' HISTÓRICO, RECIBOS E BILHETES ') }}</a>
-                        </li>
 
                        
                    
