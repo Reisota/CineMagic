@@ -24,4 +24,5 @@ class Lugar extends Model
     {
         return $this->belongsTo(Sala::class);
     }
+    public $timestamps = false;
 }

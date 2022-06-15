@@ -71,7 +71,7 @@ class ClienteController extends Controller
         $user->save();
 
         //$cliente->nif =  $request->nif;
-        $cliente->nif = $validated_data['nif'];
+        //$cliente->nif = $validated_data['nif'];
         //dd($cliente->nif);
         $cliente->nif = $validated_data['nif'];
         $cliente->tipo_pagamento = $validated_data['tipo_pagamento'];

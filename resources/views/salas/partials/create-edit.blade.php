@@ -6,7 +6,7 @@
     <div class="alert-danger">{{ $message }}</div>
     @enderror
     <label>Fila:</label>
-    <input type="text" class="form-control" id="fila" name="fila" value="{{old('fila',  $lugares2)}}">
+    <input type="text" class="form-control" id="fila" name="fila" value="{{old('fila',  $lugares)}}">
     @error('fila')
     <div class="alert-danger">{{ $message }}</div>
     @enderror

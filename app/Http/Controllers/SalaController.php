@@ -44,35 +44,77 @@ class SalaController extends Controller
            //->with('lugares', $lugares);
             ->with('lugares', $count)
             ->with('lugares2', $count2);
-            
     }
     
 
     public function create()
     {
-        $lugares = Lugar::pluck('fila', 'posicao');
-        $sala = new Sala();
+        $lugares = '';
+        $sala = new Sala;
+        $nome='';
+
+        
         return view('salas.create')
             ->with('sala', $sala)
-            ->with('lugares', $lugares);
+            ->with('lugares', $lugares)
+            ->with('nome', $nome);
     }
 
     public function store(Request $request)
     {
-
         $validated_data = $request->validate([
             'nome' => 'required|max:255',
             'fila' => 'required|integer|min:0|max:50',
             'posicao' => 'required|integer|min:0|max:50'
         ]);
+        $data = array(
+            "1" => "A",
+            "2" => "B",
+            "3" => "C",
+            "4" => "D",
+            "5" => "E",
+            "6" => "F",
+            "7" => "G",
+            "8" => "H",
+            "9" => "I",
+            "10" => "J",
+            "11" => "K",
+            "12" => "L",
+            "13" => "M",
+            "14" => "N",
+            "15" => "O",
+            "16" => "P",
+            "17" => "Q",
+            "18" => "R",
+            "19" => "S",
+            "20" => "T",
+            "21" => "U",
+            "22" => "V",
+            "23" => "W",
+            "24" => "X",
+            "25" => "Y",
+            "26" => "Z",
+          );
         $newSala = new Sala;
         $newSala->fill($validated_data);
         $newSala->save();
 
+        foreach ($data as $teste){
+            $lugar = new Lugar;
+            $lugar->fila = $teste;
+            $lugar->sala_id = $newSala->id;
+            for ($i=0;$i>$request->posicao;$i++){
+                $lugar->posicao = $i;
+                $lugar->save();
+            }
+        }
         return redirect()->route('admin.salas')
             ->with('alert-msg', 'Sala "' . $validated_data['nome'] . '" foi criado com sucesso!')
             ->with('alert-type', 'success');
     }
+
+
+
 
     public function update(Request $request, Sala $sala)
     {
@@ -81,9 +123,55 @@ class SalaController extends Controller
             'fila' => 'required|integer|min:0|max:50',
             'posicao' => 'required|integer|min:0|max:50'
         ]);
-        $sala->fill($validated_data);
+        $data = array(
+            "1" => "A",
+            "2" => "B",
+            "3" => "C",
+            "4" => "D",
+            "5" => "E",
+            "6" => "F",
+            "7" => "G",
+            "8" => "H",
+            "9" => "I",
+            "10" => "J",
+            "11" => "K",
+            "12" => "L",
+            "13" => "M",
+            "14" => "N",
+            "15" => "O",
+            "16" => "P",
+            "17" => "Q",
+            "18" => "R",
+            "19" => "S",
+            "20" => "T",
+            "21" => "U",
+            "22" => "V",
+            "23" => "W",
+            "24" => "X",
+            "25" => "Y",
+            "26" => "Z",
+          );
 
+        $sala->fill($validated_data);
         $sala->save();
+        $lugar = Lugar::where('sala_id',$sala->id);
+        
+        foreach ($data as $teste){
+            $lugar->fila = $teste;
+            for ($i=0;$i>$request->posicao;$i++){
+                $lugar->posicao = $i;
+                $lugar->save();
+            }
+        }
+
+        /*
+        foreach ($lugar as $lugares){
+            $lugares->posicao = $validated_data['posicao'];
+        }
+        */
+
+        $lugar->save(); 
+
 
         return redirect()->route('admin.salas')
             ->with('alert-msg', 'Sala "' . $sala->nome . '" foi alterado com sucesso!')
