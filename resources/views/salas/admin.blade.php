@@ -22,8 +22,7 @@
     <thead>
         <tr>
             <th>Nome</th>
-            <th></th>
-            <th></th>
+      
             <th></th>
             <th></th>
         </tr>
