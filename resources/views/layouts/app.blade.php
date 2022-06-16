@@ -51,7 +51,13 @@
                             <a class="nav-link" href="{{ route('verificacao') }}">{{ __('VALIDAÇÃO DE BILHETES') }} </a>
                         </li>
                         @endif
+                        @if(Auth::user()->tipo == 'C' )
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('filmes') }}">{{ __(' HISTÓRICO') }}</a>
+                        </li>
+                        @endif
                         @endauth
+
                        
                    
                     </ul>
@@ -59,6 +65,9 @@
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ms-auto">
                         <!-- Authentication Links -->
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('filmes') }}">{{ __('CARINHO') }}</a>
+                        </li>
                         @guest
                         @if (Route::has('login'))
                         <li class="nav-item">

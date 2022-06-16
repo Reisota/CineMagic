@@ -17,4 +17,9 @@ class Sala extends Model
     protected $fillable = ['nome'];
 
     public $timestamps = false;
+
+    public function Lugar()
+    {
+            return $this->hasMany(Lugar::class,'id','sala_id');
+    }
 }
