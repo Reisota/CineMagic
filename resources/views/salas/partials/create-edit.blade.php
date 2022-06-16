@@ -11,7 +11,7 @@
     <div class="alert-danger">{{ $message }}</div>
     @enderror
     <label>Lugares:</label>
-    <input type="text" class="form-control" id="posicao" name="posicao" value="{{old('posicao',  $lugares)}}">
+    <input type="text" class="form-control" id="posicao" name="posicao" value="{{old('posicao',  $lugares2)}}">
     @error('posicao')
     <div class="alert-danger">{{ $message }}</div>
     @enderror

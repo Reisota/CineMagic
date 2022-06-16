@@ -29,20 +29,19 @@ class SalaController extends Controller
     public function edit(Sala $sala)
     {
 
-        $user = Sala::findOrFail($sala->id);
+        $sala = Sala::findOrFail($sala->id);
 
-        $count = Lugar::where('sala_id', '=', $user->id)
-            ->where('fila', '=', 'A')->count();
-        $count1 = Lugar::where('sala_id', '=', $user->id)->count();
-        $count2 = ($count1 / $count);
-
+        $fila = Lugar::where('sala_id', $sala->id)
+            ->where('posicao', 1)->count();
+        $posicao = Lugar::where('sala_id', $sala->id)
+        ->where('fila', 'A')->count();
         //$lugares = Lugar::where('sala_id',$user->id)->get();
 
         return view('salas.edit')
-            ->with('sala', $user)
+            ->with('sala', $sala)
             //->with('lugares', $lugares);
-            ->with('lugares', $count)
-            ->with('lugares2', $count2);
+            ->with('lugares', $fila)
+            ->with('lugares2', $posicao);
     }
 
 
