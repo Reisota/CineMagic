@@ -35,11 +35,9 @@ class SalaController extends Controller
             ->where('posicao', 1)->count();
         $posicao = Lugar::where('sala_id', $sala->id)
         ->where('fila', 'A')->count();
-        //$lugares = Lugar::where('sala_id',$user->id)->get();
 
         return view('salas.edit')
             ->with('sala', $sala)
-            //->with('lugares', $lugares);
             ->with('lugares', $fila)
             ->with('lugares2', $posicao);
     }
