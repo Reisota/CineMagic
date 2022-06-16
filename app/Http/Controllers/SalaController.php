@@ -17,7 +17,6 @@ class SalaController extends Controller
         $pesquisa = $request->query('pesquisa', '');
         $salas = Sala::where(function ($query) use ($pesquisa) {
             $query->where('nome', 'like', '%' . $pesquisa . '%');
-
         })
             ->get();
 
@@ -29,31 +28,31 @@ class SalaController extends Controller
 
     public function edit(Sala $sala)
     {
-        
+
         $user = Sala::findOrFail($sala->id);
 
-        $count = Lugar::where('sala_id','=',$user->id) 
-                ->where('fila','=','A')->count();
-        $count1 = Lugar::where('sala_id','=',$user->id)->count();
+        $count = Lugar::where('sala_id', '=', $user->id)
+            ->where('fila', '=', 'A')->count();
+        $count1 = Lugar::where('sala_id', '=', $user->id)->count();
         $count2 = ($count1 / $count);
 
         //$lugares = Lugar::where('sala_id',$user->id)->get();
 
         return view('salas.edit')
             ->with('sala', $user)
-           //->with('lugares', $lugares);
+            //->with('lugares', $lugares);
             ->with('lugares', $count)
             ->with('lugares2', $count2);
     }
-    
+
 
     public function create()
     {
         $lugares = '';
         $sala = new Sala;
-        $nome='';
+        $nome = '';
 
-        
+
         return view('salas.create')
             ->with('sala', $sala)
             ->with('lugares', $lugares)
@@ -94,18 +93,24 @@ class SalaController extends Controller
             "24" => "X",
             "25" => "Y",
             "26" => "Z",
-          );
+        );
         $newSala = new Sala;
         $newSala->fill($validated_data);
         $newSala->save();
+        $contador = 0;
+        foreach ($data as $teste) {
+            $contador++;
+            if ($contador <= $request->fila) {
 
-        foreach ($data as $teste){
-            $lugar = new Lugar;
-            $lugar->fila = $teste;
-            $lugar->sala_id = $newSala->id;
-            for ($i=0;$i>$request->posicao;$i++){
-                $lugar->posicao = $i;
-                $lugar->save();
+                $exp = 1;
+                while ($exp <= $request->posicao) {
+                    $lugar = new Lugar;
+                    $lugar->fila = $teste;
+                    $lugar->sala_id = $newSala->id;
+                    $lugar->posicao = $exp;
+                    $lugar->save();
+                    $exp++;
+                }
             }
         }
         return redirect()->route('admin.salas')
@@ -150,8 +155,8 @@ class SalaController extends Controller
             "24" => "X",
             "25" => "Y",
             "26" => "Z",
-          );
-
+        );
+        /*
         $sala->fill($validated_data);
         $sala->save();
         $lugar = Lugar::where('sala_id',$sala->id);
@@ -170,17 +175,8 @@ class SalaController extends Controller
         }
         */
 
-        $lugar->save(); 
 
-
-        return redirect()->route('admin.salas')
-            ->with('alert-msg', 'Sala "' . $sala->nome . '" foi alterado com sucesso!')
-            ->with('alert-type', 'success');
-    }
-
-
-    public function destroy(Sala $sala)
-    {
+        //$lugar->save(); 
         $oldName = $sala->nome;
         try {
             $sala->delete();
@@ -202,15 +198,29 @@ class SalaController extends Controller
             }
         }
     }
+
+
+    public function destroy(Sala $sala)
+    {
+        $oldName = $sala->nome;
+       
+        try {
+            $sala->delete();
+            return redirect()->route('admin.salas')
+                ->with('alert-msg', 'sala "' . $sala->nome . '" foi apagado com sucesso!')
+                ->with('alert-type', 'success');
+        } catch (\Throwable $th) {
+            // $th é a exceção lançada pelo sistema - por norma, erro ocorre no servidor BD MySQL
+            // Descomentar a próxima linha para verificar qual a informação que a exceção tem
+            if ($th->errorInfo[1] == 1451) {   // 1451 - MySQL Error number for "Cannot delete or update a parent row: a foreign key constraint fails (%s)"
+                return redirect()->route('admin.salas')
+                    ->with('alert-msg', 'Não foi possível apagar a Sala "' . $oldName . '", porque esta sala está em uso!')
+                    ->with('alert-type', 'danger');
+            } else {
+                return redirect()->route('admin.salas')
+                    ->with('alert-msg', 'Não foi possível apagar a Sala "' . $oldName . '". Erro: ' . $th->errorInfo[2])
+                    ->with('alert-type', 'danger');
+            }
+        }
+    }
 }
-
-
-
-
-
-
-
-
-
-
-   
