@@ -48,7 +48,7 @@
                         @endif
                         @if(Auth::user()->tipo == 'F' )
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('filmes') }}">{{ __('VALIDAÇÃO DE BILHETES') }} </a>
+                            <a class="nav-link" href="{{ route('verificacao') }}">{{ __('VALIDAÇÃO DE BILHETES') }} </a>
                         </li>
                         @endif
                         @endauth

@@ -55,6 +55,9 @@ Route::put('clientes/{user}', [ClienteController::class, 'update'])->name('clien
 
 //Apenas funcionarios
 Route::middleware('funcionario')->group(function () {
+    Route::get('verificacao', [BilheteController::class, 'verificacao_index'])->name('verificacao');
+    Route::put('verificacao/{bilhete}', [BilheteController::class, 'update'])->name('verificacao.edit');
+    Route::get('verificacao/{sessao}', [BilheteController::class, 'verificacao'])->name('verificacao.sessao');
 });
 
 //Apenas Administradores
