@@ -82,8 +82,8 @@
                     <i class="fas fa-fw fa-table"></i>
                     <span>Preço Bilhetes</span></a>
             </li>
-            <li class="nav-item {{Route::currentRouteName()=='admin.cursos'? 'active': ''}}">
-                <a class="nav-link" href="{{url('/')}}">
+            <li class="nav-item {{Route::currentRouteName()=='admin.estatisticas'? 'active': ''}}">
+                <a class="nav-link" href="{{route('admin.estatisticas')}}">
                     <i class="fas fa-fw fa-table"></i>
                     <span>Estatísticas</span></a>
             </li>

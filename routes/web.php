@@ -10,6 +10,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\BilheteController;
 use App\Http\Controllers\ConfiguracaoController;
 use App\Models\Configuracao;
+use App\Http\Controllers\EstatisticasController;
 
 /*
 |--------------------------------------------------------------------------
@@ -131,5 +132,8 @@ Route::middleware('admin')->prefix('admin')->name('admin.')->group(function () {
     Route::get('configuracao', [ConfiguracaoController::class, 'admin_index'])->name('configuracao');
 
     Route::put('configuracao', [ConfiguracaoController::class, 'update'])->name('configuracao.update');
+
+    //Estatisticas
+    Route::get('estatisticas', [EstatisticasController::class, 'admin_index'])->name('estatisticas');
 });
 
