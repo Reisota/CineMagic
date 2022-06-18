@@ -2,12 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Bilhete;
+use App\Models\Configuracao;
 use App\Models\Filme;
 use App\Models\Genero;
+use App\Models\Lugar;
+use App\Models\Sala;
 use App\Models\Sessao;
 use Faker\Core\File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+
 class FilmeController extends Controller
 {
     public function index(Request $request)
@@ -87,14 +92,26 @@ class FilmeController extends Controller
         $sessao_escolhida = Sessao::findOrFail($sessao_id); //info da sessão escolhida
         $filme = Filme::findOrFail($sessao_escolhida->filme_id); //filme da sessão escolhida
         $genero = Genero::where("code", $filme->genero_code)->get(); //genero do filme
+        $sala = Sala::findOrFail($sessao_escolhida->sala_id);
+        $preco = Configuracao::all()->first();
         $sessoes = Sessao::where("filme_id", $sessao_escolhida->filme_id) //sessoes disponiveis do filme
             ->where('data', '>=', date("Y-m-d"))
             ->get();
+        $lugares = Lugar::where('sala_id', $sessao_escolhida->sala_id)
+            ->get();
+        $nPosicaoPorFila = Lugar::where('sala_id', $sessao_escolhida->sala_id)
+            ->where('fila', 'A')->count();
+        $bilhetes = Bilhete::where('sessao_id',$sessao_escolhida->id)->get();
 
         return view('filmes.sessao')
             ->with('sessao_escolhida', $sessao_escolhida)
+            ->with('lugares', $lugares)
             ->with('sessoes', $sessoes)
+            ->with('sala', $sala)
+            ->with('bilhetes',$bilhetes)
+            ->with('preco',number_format($preco->preco_bilhete_sem_iva*(1+$preco->percentagem_iva/100),2))
             ->with('genero', $genero)
+            ->with('nPosicaoPorFila', $nPosicaoPorFila)
             ->with('filme', $filme);
     }
 
@@ -109,7 +126,7 @@ class FilmeController extends Controller
             ->with('filme', $filme)
             ->with('genero', $genero)
             ->with('sessoes', $sessoes)
-            ->with('generos',$generos);
+            ->with('generos', $generos);
     }
 
     public function create()
@@ -118,7 +135,7 @@ class FilmeController extends Controller
         $filme = new Filme();
         return view('filmes.create')
             ->with('filme', $filme)
-            ->with('generos',$generos);
+            ->with('generos', $generos);
     }
 
     public function store(Request $request)
@@ -172,7 +189,7 @@ class FilmeController extends Controller
             ->with('alert-type', 'success');
     }
 
-   
+
 
     public function destroy(Filme $filme)
     {
@@ -200,4 +217,5 @@ class FilmeController extends Controller
         }
     }
 
+    
 }

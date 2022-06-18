@@ -66,7 +66,7 @@
                     <ul class="navbar-nav ms-auto">
                         <!-- Authentication Links -->
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('filmes') }}">{{ __('CARINHO') }}</a>
+                            <a class="nav-link" href="{{ route('carrinho') }}">{{ __('CARINHO') }}</a>
                         </li>
                         @guest
                         @if (Route::has('login'))

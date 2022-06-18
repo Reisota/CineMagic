@@ -93,15 +93,11 @@
                 @if(isset($valido))
                 @if($valido == true)
                 <h4>Informações do bilhete</h4>
-                <p>Titulo do filme:</p>
-                <p>{{$filme->titulo}}</p>
-                <p>Data e hora:</p>
+                <p>Titulo do filme: {{$filme->titulo}}</p>
                 <p>Dia: {{$sessao->data}} Hora: {{$sessao->horario_inicio}}</p>
-                <p>Lugar:</p>
-                <p>{{$lugar->fila}} {{$lugar->posicao}}</p>
+                <p>Lugar: {{$lugar->fila}}{{$lugar->posicao}}</p>
                 <p>Cliente:</p>
-                <p>Nome:</p>
-                <p>{{$cliente->name}} </p>
+                <p>Nome: {{$cliente->name}} </p>
                 <p>Estado:</p>
                 @if($bilhete->estado == 'não usado')
 
@@ -117,7 +113,7 @@
                 <div class="alert-danger">
                     <p>Usado</p>
                 </div>
-                <p>Estado</p>
+     
                 @endif
                 @else
                 <div class="alert-danger">

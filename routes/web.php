@@ -9,6 +9,7 @@ use App\Http\Controllers\SalaController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\BilheteController;
 use App\Http\Controllers\ConfiguracaoController;
+use App\Http\Controllers\CarrinhoController;
 use App\Models\Configuracao;
 
 /*
@@ -37,7 +38,11 @@ Route::get('filmes/{id}', [FilmeController::class, 'info'])->name('info'); // ge
 
 Route::get('filmes/sessao/{id}', [FilmeController::class, 'sessao'])->name('sessao'); // get do filme pelo id
 
+Route::get('filmes/add-to-cart/{id}', [CarrinhoController::class, 'addToCart'])->name('add.to.cart'); 
 
+Route::get('carrinho', [CarrinhoController::class, 'index'])->name('carrinho');
+
+Route::delete('remove-from-cart/{id}', [CarrinhoController::class, 'remove'])->name('remove.from.cart');
 
 //Apenas Clientes
 Route::middleware('cliente')->group(function () {

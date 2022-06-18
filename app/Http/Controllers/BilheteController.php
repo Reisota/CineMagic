@@ -19,9 +19,9 @@ class BilheteController extends Controller
         $filme =  $request->query('filme', new Filme());
 
         if ($request->filme != '' && $request->sala != '') {
-            $sessao=new Sessao();
+            $sessao_escolhida=new Sessao();
             if($request->sessao != ''){
-                $sessao = Sessao::findOrFail($request->sessao);
+                $sessao_escolhida = Sessao::findOrFail($request->sessao);
             }
             $filme = Filme::findOrFail($request->filme);
 
@@ -36,6 +36,7 @@ class BilheteController extends Controller
                 ->with('sala', $sala)
                 ->with('salas', $salas)
                 ->with('filmes', $filmes)
+                ->with('sessao_escolhida',$sessao_escolhida)
                 ->with('sessoes',$sessoes)
                 ->with('bilhete', $bilhete)
                 ->with('filme', $filme);

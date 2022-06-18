@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -98,6 +99,11 @@ class UserController extends Controller
 
     public function bloquiar_desbloquiar(Request $request, User $user)
     {
+        if(Auth::user()->name == $user->name){
+            return redirect()->route('admin.funcionarios')
+                ->with('alert-msg', 'Não é possivel bloquiar a sua propria conta!')
+                ->with('alert-type', 'danger');
+        }
         $validated_data = $request->validate([
             'bloqueado' => 'required|in:0,1',
         ]);
@@ -118,6 +124,11 @@ class UserController extends Controller
 
     public function destroy(User $user)
     {
+        if(Auth::user()->name == $user->name){
+            return redirect()->route('admin.funcionarios')
+                ->with('alert-msg', 'Não é possivel eliminar a sua propria conta!')
+                ->with('alert-type', 'danger');
+        }
         $oldName = $user->name;
         $oldUrlFoto = $user->foto_url;
         try {
