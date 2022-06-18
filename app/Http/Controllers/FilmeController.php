@@ -182,7 +182,7 @@ class FilmeController extends Controller
             $filme->delete();
             Storage::delete('public/cartazes/' . $oldUrlCartaz);
             return redirect()->route('admin.filmes')
-                ->with('alert-msg', 'Funcionarios "' . $filme->titulo . '" foi apagado com sucesso!')
+                ->with('alert-msg', 'Filme "' . $filme->titulo . '" foi apagado com sucesso!')
                 ->with('alert-type', 'success');
         } catch (\Throwable $th) {
             // $th é a exceção lançada pelo sistema - por norma, erro ocorre no servidor BD MySQL
