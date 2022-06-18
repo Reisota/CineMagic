@@ -6,12 +6,12 @@
     <div class="alert-danger">{{ $message }}</div>
     @enderror
     <label>Fila:</label>
-    <input type="text" class="form-control" id="fila" name="fila" value="{{old('fila',  $lugares)}}">
+    <input type="text" class="form-control" id="fila" name="fila" value="{{old('fila',  $fila)}}">
     @error('fila')
     <div class="alert-danger">{{ $message }}</div>
     @enderror
     <label>Lugares:</label>
-    <input type="text" class="form-control" id="posicao" name="posicao" value="{{old('posicao',  $lugares2)}}">
+    <input type="text" class="form-control" id="posicao" name="posicao" value="{{old('posicao',  $posicao)}}">
     @error('posicao')
     <div class="alert-danger">{{ $message }}</div>
     @enderror

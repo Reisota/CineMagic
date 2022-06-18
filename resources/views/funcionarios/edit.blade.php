@@ -14,13 +14,13 @@
 
 </div>
 </form>
-<form method="POST" action="{{route('admin.funcionarios.bloquiar_desbloquiar', ['user' => $user]) }}" class="form-group">
+<form method="POST" action="{{route('admin.funcionarios.bloquear_desbloquear', ['user' => $user]) }}" class="form-group">
     @csrf
     @method('PUT')
     @if($user->bloqueado == 0)
-    <button class="btn btn-danger" type="submit" name="bloqueado" value="1">Bloquiar Conta</button>
+    <button class="btn btn-danger" type="submit" name="bloqueado" value="1">bloquear Conta</button>
     @else
-    <button class="btn btn-danger" type="submit" name="bloqueado" value="0">Desbloquiar Conta</button>
+    <button class="btn btn-danger" type="submit" name="bloqueado" value="0">Desbloquear Conta</button>
     @endif
 </form>
 

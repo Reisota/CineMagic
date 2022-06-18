@@ -21,6 +21,7 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <script src="{{ asset('js/funcoes.js') }}" defer></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
 </head>
 
 <body>

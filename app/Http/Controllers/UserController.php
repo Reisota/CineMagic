@@ -97,11 +97,11 @@ class UserController extends Controller
             ->with('alert-type', 'success');
     }
 
-    public function bloquiar_desbloquiar(Request $request, User $user)
+    public function bloquear_desbloquear(Request $request, User $user)
     {
         if(Auth::user()->name == $user->name){
             return redirect()->route('admin.funcionarios')
-                ->with('alert-msg', 'Não é possivel bloquiar a sua propria conta!')
+                ->with('alert-msg', 'Não é possivel bloquear a sua propria conta!')
                 ->with('alert-type', 'danger');
         }
         $validated_data = $request->validate([
@@ -113,11 +113,11 @@ class UserController extends Controller
         $user->save();
         if ($request->bloqueado == '1') {
             return redirect()->route('admin.funcionarios')
-                ->with('alert-msg', 'Utilizador "' . $user->name . '" foi bloquiado com sucesso!')
+                ->with('alert-msg', 'Utilizador "' . $user->name . '" foi bloqueado com sucesso!')
                 ->with('alert-type', 'success');
         } else {
             return redirect()->route('admin.funcionarios')
-                ->with('alert-msg', 'Utilizador "' . $user->name . '" foi desbloquiado com sucesso!')
+                ->with('alert-msg', 'Utilizador "' . $user->name . '" foi desbloqueado com sucesso!')
                 ->with('alert-type', 'success');
         }
     }
