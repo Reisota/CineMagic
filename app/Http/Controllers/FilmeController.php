@@ -99,10 +99,20 @@ class FilmeController extends Controller
             ->get();
         $lugares = Lugar::where('sala_id', $sessao_escolhida->sala_id)
             ->get();
+
         $nPosicaoPorFila = Lugar::where('sala_id', $sessao_escolhida->sala_id)
             ->where('fila', 'A')->count();
-        $bilhetes = Bilhete::where('sessao_id',$sessao_escolhida->id)->get();
+        
+        $bilhetes = Bilhete::where('sessao_id',$sessao_escolhida->id)->pluck('lugar_id', 'id')->toArray();
 
+        $lugares_disponiveis = Lugar::where('sala_id', $sessao_escolhida->sala_id)
+        ->get();
+
+        foreach($bilhetes as $bilhete){
+            unset($lugares_disponiveis[$bilhete]);
+        }
+    
+        
         return view('filmes.sessao')
             ->with('sessao_escolhida', $sessao_escolhida)
             ->with('lugares', $lugares)
@@ -111,6 +121,7 @@ class FilmeController extends Controller
             ->with('bilhetes',$bilhetes)
             ->with('preco',number_format($preco->preco_bilhete_sem_iva*(1+$preco->percentagem_iva/100),2))
             ->with('genero', $genero)
+            ->with('lugares_disponiveis',$lugares_disponiveis)
             ->with('nPosicaoPorFila', $nPosicaoPorFila)
             ->with('filme', $filme);
     }

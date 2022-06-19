@@ -1,6 +1,11 @@
 @extends('layouts.app')
 @section('content')
 <div class="container">
+@if (session('status'))
+    <div class="alert alert-success" role="alert">
+        {{ session('status') }}
+    </div>
+    @endif
     <div class="row mb-3">
         <div class="col-9">
             <form method="GET" action="{{route('verificacao')}}" class="form-group">

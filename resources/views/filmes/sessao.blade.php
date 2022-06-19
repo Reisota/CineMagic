@@ -3,9 +3,14 @@
 @section('content')
 
 <div class="container">
-@if (session('status'))
+    @if (session('status'))
     <div class="alert alert-success" role="alert">
         {{ session('status') }}
+    </div>
+    @endif
+    @if (session('erro'))
+    <div class="alert alert-danger" role="alert">
+        {{ session('erro') }}
     </div>
     @endif
     <div class="card">
@@ -55,7 +60,7 @@
                     <h3 class="box-title mt-5">Sala: {{$sala->nome}}</h3>
 
                     <h3 class="box-title mt-5">Lugares</h3>
-
+                    <p>Cinzento: lugares disponiveis, Vermelho: lugares indisponiveis, Verde: lugares escolhidos por si</p>
                     <div class="table-responsive">
                         <table class="table">
                             @foreach($lugares as $lugar)
@@ -63,7 +68,14 @@
                             @if($lugar->posicao == 1)
                             <tr>
                                 @endif
-                                <td style="background-color: grey;"> {{$lugar->fila}}{{$lugar->posicao}}</td>
+                                @if (in_array($lugar->id, $bilhetes))
+                                <td style="background-color: #f50000;"> {{$lugar->fila}}{{$lugar->posicao}}</td>
+                                @elseif(session('cart') && array_key_exists($lugar->id, session('cart')))
+                                <td style="background-color: #45fa3e;"> {{$lugar->fila}}{{$lugar->posicao}}</td>
+                                @else
+                                <td style="background-color: #d9d4c7;"> {{$lugar->fila}}{{$lugar->posicao}}</td>
+                                @endif
+
                                 @if($lugar->posicao == $nPosicaoPorFila)
                             </tr>
                             @endif
@@ -75,7 +87,7 @@
                         @csrf
                         <select id="lugar" name="lugar" class="form-control">
                             <option value="">Selecionar lugar</option>
-                            @foreach ($lugares as $lugar)
+                            @foreach ($lugares_disponiveis as $lugar)
                             <option value="{{$lugar->id}}">
                                 {{$lugar->fila}}{{$lugar->posicao}}
                             </option>

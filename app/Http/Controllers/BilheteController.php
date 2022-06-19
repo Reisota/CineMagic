@@ -117,9 +117,9 @@ class BilheteController extends Controller
         $bilhete->estado = 'usado';
         $bilhete->save();
 
-        return redirect()->route('verificacao')
-            ->with('alert-msg', 'Bilhete foi usado com sucesso!')
-            ->with('alert-type', 'success');
+        return redirect()->back()
+        ->with('status', 'Bilhete foi usado com sucesso!');
+
     }
 
 
@@ -132,9 +132,15 @@ class BilheteController extends Controller
         
         $lugar = Lugar::findOrFail($request->lugar);
         $sala = Sala::findOrFail($lugar->sala_id);
+
+        $bilhetes = Bilhete::where('sessao_id',$sessao->id)->pluck('lugar_id', 'id')->toArray();
+        if(in_array($lugar->id, $bilhetes)){
+            return redirect()->back()->with('erro', 'O lugar não está disponivel!');
+        }
+
         $filme = Filme::findOrFail($sessao->filme_id);
         $cart = session()->get('cart', []);
-  
+       
         if(!isset($cart[$request->lugar])) {
             $cart[$request->lugar] = [
                 "lugar_id" =>$lugar->id,
