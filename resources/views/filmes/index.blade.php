@@ -35,7 +35,6 @@
             <div class="card">
                 <img src="{{$filme->cartaz_url ? asset('storage/cartazes/' . $filme->cartaz_url) : asset('img/cartaz_default.png') }}" alt="cartaz">
 
-
                 <div class="card-body">
 
                     <h5 class="card-title"><a class="nav-link" href="{{ route('info',['id' => $filme->id]) }}">{{$filme->titulo}}</a></h5>

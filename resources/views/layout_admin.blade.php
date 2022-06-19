@@ -34,9 +34,7 @@
 
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ url('/') }}">
-                <div class="sidebar-brand-icon">
-                    <img src="/img/logo.png" alt="Logo" class="logo-img">
-                </div>
+               
                 <div class="sidebar-brand-text mx-3">CineMagic</div>
             </a>
 
