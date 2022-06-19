@@ -46,8 +46,7 @@ class LoginController extends Controller
             Auth::logout();
 		
 		    return redirect('login')
-            ->with('alert-msg', 'A sua conta não esta disponivel' )
-            ->with('alert-type', 'danger');
+            ->with('status', 'A sua conta não esta disponivel' );
         }
 
         return redirect($this->redirectTo);
