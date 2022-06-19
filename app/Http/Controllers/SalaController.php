@@ -32,28 +32,30 @@ class SalaController extends Controller
         $sala = Sala::findOrFail($sala->id);
 
         $fila = Lugar::where('sala_id', $sala->id)
-            ->where('posicao', 1)->count();
+            ->where('posicao', 1)->count(); 
         $posicao = Lugar::where('sala_id', $sala->id)
         ->where('fila', 'A')->count();
 
         return view('salas.edit')
             ->with('sala', $sala)
-            ->with('lugares', $fila)
-            ->with('lugares2', $posicao);
+            ->with('fila', $fila)
+            ->with('posicao', $posicao);
     }
 
 
     public function create()
     {
-        $lugares = '';
+        $fila = '';
+        $posicao = '';
         $sala = new Sala;
         $nome = '';
 
 
         return view('salas.create')
             ->with('sala', $sala)
-            ->with('lugares', $lugares)
-            ->with('nome', $nome);
+            ->with('nome', $nome)
+            ->with('fila', $fila)
+            ->with('posicao', $posicao);
     }
 
     public function store(Request $request)

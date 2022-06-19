@@ -23,6 +23,7 @@
 
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <script src="{{ asset('js/funcoes.js') }}" defer></script>
+
 </head>
 
 <body>
@@ -68,7 +69,7 @@
                     <ul class="navbar-nav ms-auto">
                         <!-- Authentication Links -->
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('carrinho') }}">{{ __('CARINHO') }}</a>
+                            <a class="nav-link" href="{{ route('carrinho') }}">{{ __('CARRINHO') }}</a>
                         </li>
                         @guest
                         @if (Route::has('login'))

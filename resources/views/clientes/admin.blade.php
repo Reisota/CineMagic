@@ -37,13 +37,13 @@
             <td>{{$user->email}}</td>
 
             <td>
-                <form method="POST" action="{{route('admin.clientes.bloquiar_desbloquiar', ['user' => $user]) }}">
+                <form method="POST" action="{{route('admin.clientes.bloquear_desbloquear', ['user' => $user]) }}">
                     @csrf
                     @method('PUT')
                     @if($user->bloqueado == 0)
-                    <button class="btn btn-danger btn-sm" type="submit" name="bloqueado" value="1">Bloquiar Conta</button>
+                    <button class="btn btn-danger btn-sm" type="submit" name="bloqueado" value="1">bloquear Conta</button>
                     @else
-                    <button class="btn btn-danger btn-sm" type="submit" name="bloqueado" value="0">Desbloquiar Conta</button>
+                    <button class="btn btn-danger btn-sm" type="submit" name="bloqueado" value="0">Desbloquear Conta</button>
                     @endif
                 </form>
             </td>

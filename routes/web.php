@@ -82,14 +82,14 @@ Route::middleware('admin')->prefix('admin')->name('admin.')->group(function () {
 
     Route::put('funcionarios/{user}', [UserController::class, 'update'])->name('funcionarios.update');
 
-    Route::put('funcionarios/{user}/bloqueado', [UserController::class, 'bloquiar_desbloquiar'])->name('funcionarios.bloquiar_desbloquiar');
+    Route::put('funcionarios/{user}/bloqueado', [UserController::class, 'bloquear_desbloquear'])->name('funcionarios.bloquear_desbloquear');
 
     Route::delete('funcionarios/{user}', [UserController::class, 'destroy'])->name('funcionarios.destroy');
 
     //Clientes
     Route::get('clientes', [ClienteController::class, 'admin_index'])->name('clientes');
     
-    Route::put('clientes/{user}', [ClienteController::class, 'bloquiar_desbloquiar'])->name('clientes.bloquiar_desbloquiar');
+    Route::put('clientes/{user}', [ClienteController::class, 'bloquear_desbloquear'])->name('clientes.bloquear_desbloquear');
     
     Route::delete('clientes/{user}', [ClienteController::class, 'destroy'])->name('clientes.destroy');
 

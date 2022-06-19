@@ -117,7 +117,7 @@ class ClienteController extends Controller
     }
 
 
-    public function bloquiar_desbloquiar(Request $request, User $user)
+    public function bloquear_desbloquear(Request $request, User $user)
     {
         $validated_data = $request->validate([
             'bloqueado' => 'required|in:0,1',
@@ -128,11 +128,11 @@ class ClienteController extends Controller
         $user->save();
         if ($request->bloqueado == '1') {
             return redirect()->route('admin.clientes')
-                ->with('alert-msg', 'Utilizador "' . $user->name . '" foi bloquiado com sucesso!')
+                ->with('alert-msg', 'Utilizador "' . $user->name . '" foi bloqueado com sucesso!')
                 ->with('alert-type', 'success');
         } else {
             return redirect()->route('admin.clientes')
-                ->with('alert-msg', 'Utilizador "' . $user->name . '" foi desbloquiado com sucesso!')
+                ->with('alert-msg', 'Utilizador "' . $user->name . '" foi desbloqueado com sucesso!')
                 ->with('alert-type', 'success');
         }
     }
