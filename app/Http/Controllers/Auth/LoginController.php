@@ -1,11 +1,12 @@
 <?php
 
 namespace App\Http\Controllers\Auth;
-
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
-
+use App\Models\User;
+use Illuminate\Http\Request;
 class LoginController extends Controller
 {
     /*
@@ -36,5 +37,19 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
+    }
+
+    public function authenticated(Request $request, User $user)
+    {
+        
+        if ($user->bloqueado == 1) {
+            Auth::logout();
+		
+		    return redirect('login')
+            ->with('alert-msg', 'A sua conta não esta disponivel' )
+            ->with('alert-type', 'danger');
+        }
+
+        return redirect($this->redirectTo);
     }
 }

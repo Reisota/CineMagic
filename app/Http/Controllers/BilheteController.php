@@ -10,6 +10,7 @@ use App\Models\Lugar;
 use App\Models\Sala;
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Models\Configuracao;
 
 class BilheteController extends Controller
 {
@@ -117,5 +118,55 @@ class BilheteController extends Controller
         return redirect()->route('verificacao')
             ->with('alert-msg', 'Bilhete foi usado com sucesso!')
             ->with('alert-type', 'success');
+    }
+
+
+    public function addToCart(Request $request,$id)
+    {
+        $validated_data = $request->validate([
+            'lugar' => 'required',
+        ]);
+        $sessao = Sessao::findOrFail($id);
+        
+        $lugar = Lugar::findOrFail($request->lugar);
+        $sala = Sala::findOrFail($lugar->sala_id);
+        $filme = Filme::findOrFail($sessao->filme_id);
+        $cart = session()->get('cart', []);
+  
+        if(!isset($cart[$request->lugar])) {
+            $cart[$request->lugar] = [
+                "lugar_id" =>$lugar->id,
+                "lugar" => $lugar->fila .$lugar->posicao,
+                "sala" => $sala->nome,
+                "data_hora" => $sessao->data . ' '. $sessao->horario_inicio,
+                "sessao_id" => $sessao->id,
+                "filme" => $filme->titulo,
+                "filme_url" => $filme->cartaz_url,
+            ];
+        }
+          
+        session()->put('cart', $cart);
+ 
+        return redirect()->back()->with('success', 'Product added to cart successfully!');
+    }
+
+    public function carrinho()
+    {
+        $configuracao = Configuracao::all()->first();
+        return view('carrinho.index')
+        ->with('preco',number_format($configuracao->preco_bilhete_sem_iva*(1+$configuracao->percentagem_iva/100),2));
+    }
+
+
+    public function removeCart($id)
+    {
+        if(isset($id)) {
+            $cart = session()->get('cart');
+            if(isset($cart[$id])) {
+                unset($cart[$id]);
+                session()->put('cart', $cart);
+            }
+        }
+        return redirect()->route('carrinho');
     }
 }

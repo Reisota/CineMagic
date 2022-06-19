@@ -9,8 +9,6 @@ use App\Http\Controllers\SalaController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\BilheteController;
 use App\Http\Controllers\ConfiguracaoController;
-use App\Http\Controllers\CarrinhoController;
-use App\Models\Configuracao;
 use App\Http\Controllers\EstatisticasController;
 
 /*
@@ -25,7 +23,7 @@ use App\Http\Controllers\EstatisticasController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('filmes');
 });
 
 Auth::routes();
@@ -39,11 +37,11 @@ Route::get('filmes/{id}', [FilmeController::class, 'info'])->name('info'); // ge
 
 Route::get('filmes/sessao/{id}', [FilmeController::class, 'sessao'])->name('sessao'); // get do filme pelo id
 
-Route::get('filmes/add-to-cart/{id}', [CarrinhoController::class, 'addToCart'])->name('add.to.cart'); 
+Route::get('filmes/add-to-cart/{id}', [BilheteController::class, 'addToCart'])->name('add.to.cart'); 
 
-Route::get('carrinho', [CarrinhoController::class, 'index'])->name('carrinho');
+Route::get('carrinho', [BilheteController::class, 'carrinho'])->name('carrinho');
 
-Route::delete('remove-from-cart/{id}', [CarrinhoController::class, 'remove'])->name('remove.from.cart');
+Route::delete('remove-from-cart/{id}', [BilheteController::class, 'removeCart'])->name('remove.from.cart');
 
 //Apenas Clientes
 Route::middleware('cliente')->group(function () {
@@ -54,6 +52,8 @@ Route::get('clientes', [ClienteController::class, 'index'])->name('clientes');
 Route::get('clientes/{user}/edit', [ClienteController::class, 'edit'])->name('clientes.edit');
 
 Route::put('clientes/{user}', [ClienteController::class, 'update'])->name('clientes.update');
+
+
 });
 
 

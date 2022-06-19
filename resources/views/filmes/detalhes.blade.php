@@ -7,7 +7,7 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-lg-5 col-md-5 col-sm-6">
-                
+
                     <div class="white-box text-center"><img src="{{$filme->cartaz_url ? asset('storage/cartazes/' . $filme->cartaz_url) : asset('img/cartaz_default.png') }}" style="width:100%" class="img-responsive"></div>
                 </div>
                 <div class="col-lg-7 col-md-7 col-sm-6">
@@ -18,9 +18,8 @@
                         Trailer
 
                     </h3>
-                    <iframe width="420" height="300" src="{{$filme->trailer_url}}">
-                    </iframe>
-                    <video controls="controls" class="video-stream" x-webkit-airplay="allow" data-youtube-id="N9oxmRT2YWw" src={{$filme->trailer_url}}></video>
+                    <a href="{{$filme->trailer_url}}" target="_blank"><H4>Click para ver o trailer</H4></a> 
+                    
 
                     <h3 class="box-title mt-5">Sessões</h3>
                     <ul class="list-unstyled">
@@ -29,8 +28,6 @@
                             <li>
                                 Dia: {{date('d',strtotime($sessao->data))}} -
                                 {{$sessao->horario_inicio}}
-
-
                             </li>
                         </a>
 
