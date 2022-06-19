@@ -32,7 +32,7 @@ class SalaController extends Controller
         $sala = Sala::findOrFail($sala->id);
 
         $fila = Lugar::where('sala_id', $sala->id)
-            ->where('posicao', 1)->count();
+            ->where('posicao', 1)->count(); 
         $posicao = Lugar::where('sala_id', $sala->id)
         ->where('fila', 'A')->count();
 

@@ -1,11 +1,13 @@
-@extends('layouts.app')
+@extends('layout_admin')
+@section('title', 'Estatisticas' )
 @section('content')
+
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-12">
 
                 <div class="card">
-                    <div class="card-header">Active and Trial Users
+                    <div class="card-header">Filmes
 
                     </div>
                     <div class="card-body">
@@ -13,15 +15,23 @@
                     </div>
                 </div>
             </div>
+           Numero Total de Filmes no cinema em 2022 : {{$totalFilmes2022}}
+           <br>
+           <br>
+           
         </div>
+            
     </div>
     <script>
+        const  novaArrayLiteral = [{{$totalFilmes1}},{{$totalFilmes2}},{{$totalFilmes3}},{{$totalFilmes4}},{{$totalFilmes5}},
+        {{$totalFilmes6}},{{$totalFilmes7}},{{$totalFilmes8}},{{$totalFilmes9}},{{$totalFilmes10}},{{$totalFilmes11}},{{$totalFilmes12}}];
+        
       const chart = Highcharts.chart('container', {
             chart: {
                 type: 'line'
             },
             title: {
-                text: 'Active and Trail users'
+                text: 'Filmes no cinema em 2022'
             },
             subtitle: {
                 text: ''
@@ -33,7 +43,7 @@
             },
             yAxis: {
                 title: {
-                    text: 'Users'
+                    text: 'Filmes'
                 }
             },
             plotOptions: {
@@ -44,13 +54,17 @@
                     enableMouseTracking: false
                 }
             },
-            series: [{
-                name: 'Active',
-                data: [7.0, 6.9, 9.5, 14.5, 18.4, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9,
-                    9.6
-                ]
+            series: [/*{ //PARA ADICIONAR UMA NOVA LINHA NO GRAFICO
+                name: '2022',
+                data: [2,0,7,5,4,3,2,1,6,5,4,2]
+            }, 
+            */{
+                
+                name: '2021',
+                data: novaArrayLiteral
             }]
         });
 
     </script>
+
 @endsection
