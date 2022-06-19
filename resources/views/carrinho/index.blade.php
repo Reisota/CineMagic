@@ -1,6 +1,17 @@
 @extends('layouts.app')
 
 @section('content')
+@if (session('status'))
+    <div class="alert alert-success" role="alert">
+        {{ session('status') }}
+    </div>
+    @endif
+    @if (session('erro'))
+    <div class="alert alert-danger" role="alert">
+        {{ session('erro') }}
+    </div>
+    @endif
+
 @if(session('cart'))
 <table id="cart" class="table table-hover table-condensed">
     <thead>
@@ -15,7 +26,7 @@
     </thead>
     <tbody>
 
-        
+
 
         @foreach(session('cart') as $id => $details)
 
@@ -43,9 +54,9 @@
             </td>
         </tr>
         @endforeach
-       
-        
-       
+
+
+
     </tbody>
     <tfoot>
         <tr>
@@ -55,18 +66,25 @@
         </tr>
         <tr>
             <td colspan="5" class="text-right">
-                <a href="{{ url('filmes') }}" class="btn btn-warning"><i class="fa fa-angle-left"></i> Ver mais filmes</a>
-                @if(Auth::user())
-                <button class="btn btn-success">Finalizar Compra</button>
-                @else
-                <a href="{{ url('login') }}" class="btn btn-success"><i class="fa fa-angle-left"></i> Para finalizar a compra faça login com a sua conta</a>
-                @endif
+                <form method="POST" action="{{route('bilhetes.store')}}">
+                @csrf
+                    <a href="{{ url('filmes') }}" class="btn btn-warning"><i class="fa fa-angle-left"></i> Ver mais filmes</a>
+                    @if(Auth::user())
+           
+                    <button class="btn btn-success" type="submit">Finalizar Compra</button>
+
+                    @else
+                    <a href="{{ url('login') }}" class="btn btn-success"><i class="fa fa-angle-left"></i> Para finalizar a compra faça login com a sua conta</a>
+                    @endif
+                </form>
             </td>
         </tr>
     </tfoot>
 </table>
 @else
-<div class="text-center"><h2>O seu carrinho está vazio</h2></div>
-<div class="text-center">  <a href="{{ url('filmes') }}" class="btn btn-warning"><i class="fa fa-angle-left"></i> Procurar filmes</a></div>
+<div class="text-center">
+    <h2>O seu carrinho está vazio</h2>
+</div>
+<div class="text-center"> <a href="{{ url('filmes') }}" class="btn btn-warning"><i class="fa fa-angle-left"></i> Procurar filmes</a></div>
 @endif
 @endsection

@@ -9,8 +9,10 @@ use App\Models\Cliente;
 use App\Models\Lugar;
 use App\Models\Sala;
 use App\Models\User;
+use App\Models\Recibo;
 use Illuminate\Http\Request;
 use App\Models\Configuracao;
+use Illuminate\Support\Facades\Auth;
 
 class BilheteController extends Controller
 {
@@ -147,7 +149,7 @@ class BilheteController extends Controller
           
         session()->put('cart', $cart);
  
-        return redirect()->back()->with('success', 'Product added to cart successfully!');
+        return redirect()->back()->with('status', 'Adicionado ao carrinho com sucesso!');
     }
 
     public function carrinho()
@@ -168,5 +170,54 @@ class BilheteController extends Controller
             }
         }
         return redirect()->route('carrinho');
+    }
+
+    public function finalizar_compra(Request $request)
+    {
+        
+        $cart = session()->get('cart');
+
+        $cliente = Cliente::Find(Auth::id());
+      
+        if($cliente->nif==null || $cliente->ref_pagamento==null || $cliente->tipo_pagamento==null){
+            return redirect()->route('carrinho')
+            ->with('erro', 'Não foi possivel finalizar a compra pois os seus dados não estão compretamente preenchido! Para os preencher vá ao seu perfil de utilizador');
+        }
+        $configuracao = Configuracao::all()->first();
+        $newRecibo = new Recibo();
+        $newRecibo->cliente_id=Auth::id();
+        $newRecibo->data=date("Y-m-d");
+        $total_sem_iva = $configuracao->preco_bilhete_sem_iva*sizeof($cart);
+
+      
+        $total = number_format($configuracao->preco_bilhete_sem_iva*(1+$configuracao->percentagem_iva/100),2)*sizeof($cart);
+     
+        $newRecibo->preco_total_sem_iva=$total_sem_iva;
+        $newRecibo->iva=$total-$total_sem_iva;
+        $newRecibo->preco_total_com_iva=$total;
+        $newRecibo->nif=$cliente->nif;
+        $newRecibo->nome_cliente=Auth::user()->name;
+        $newRecibo->tipo_pagamento=$cliente->tipo_pagamento;
+        $newRecibo->ref_pagamento=$cliente->ref_pagamento;
+        $newRecibo->recibo_pdf_url=null;
+        $newRecibo->save();
+        foreach($cart as $bilhete){
+            
+            $newBilhete = new Bilhete();
+            $newBilhete->recibo_id=$newRecibo->id;
+            $newBilhete->cliente_id=Auth::id();
+            $newBilhete->sessao_id= $bilhete['sessao_id'];
+            $newBilhete->lugar_id=$bilhete['lugar_id'];
+            $newBilhete->preco_sem_iva=$configuracao->preco_bilhete_sem_iva;
+            $newBilhete->save();
+
+           
+            unset($cart[$bilhete['lugar_id']]);
+               
+            
+        }
+        session()->put('cart', $cart);
+        return redirect()->route('carrinho')
+            ->with('status', 'Compra finalizada com successo!');
     }
 }

@@ -28,7 +28,7 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [App\Http\Controllers\FilmeController::class, 'index'])->name('home');
 
 //Filmes
 Route::get('filmes', [FilmeController::class, 'index'])->name('filmes'); //get de todos os filmes em exibição
@@ -53,6 +53,7 @@ Route::get('clientes/{user}/edit', [ClienteController::class, 'edit'])->name('cl
 
 Route::put('clientes/{user}', [ClienteController::class, 'update'])->name('clientes.update');
 
+Route::post('bilhetes', [BilheteController::class, 'finalizar_compra'])->name('bilhetes.store');
 
 });
 
