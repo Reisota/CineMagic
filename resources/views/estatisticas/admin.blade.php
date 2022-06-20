@@ -7,8 +7,12 @@
             <div class="col-md-12">
 
                 <div class="card">
-                    <div class="card-header">Filmes
-
+                    <div class="card-header">
+                    <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                            <a class="nav-link" href="estatisticas">{{ __('Filmes no Cinema em 2022') }}</a>
+                        </li>                   
+                    </ul>
                     </div>
                     <div class="card-body">
                         <div id="container"></div>
@@ -54,13 +58,9 @@
                     enableMouseTracking: false
                 }
             },
-            series: [/*{ //PARA ADICIONAR UMA NOVA LINHA NO GRAFICO
-                name: '2022',
-                data: [2,0,7,5,4,3,2,1,6,5,4,2]
-            }, 
-            */{
+            series: [{
                 
-                name: '2021',
+                name: '2022',
                 data: novaArrayLiteral
             }]
         });
